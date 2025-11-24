@@ -1,0 +1,26 @@
+{
+  "folders": [
+    {
+      "name": "buy-frontend",
+      "path": "."
+    }
+  ],
+  "settings": {
+    "typescript.preferences.organizeImportsOnSave": true,
+    "editor.codeActionsOnSave": {
+      "source.organizeImports": "explicit",
+      "source.fixAll": "explicit"
+    },
+    "files.autoSave": "onFocusChange",
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "extensions": {
+    "recommendations": [
+      "esbenp.prettier-vscode",
+      "bradlc.vscode-tailwindcss",
+      "ms-vscode.vscode-typescript-next",
+      "ms-vscode.vscode-json"
+    ]
+  }
+}

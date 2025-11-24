@@ -1,0 +1,1005 @@
+msgid ""
+msgstr ""
+"POT-Creation-Date: 2025-09-04 00:51+0500\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: @lingui/cli\n"
+"Language: ru\n"
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Plural-Forms: \n"
+
+#: src/lib/translations.ts:11
+#: src/lib/translations.ts:21
+msgid "{text}"
+msgstr "{text}"
+
+#: src/components/property/create-property/CreateProperty.tsx:300
+#: src/components/shared/Stepper.tsx:119
+msgid "<0/> Previous"
+msgstr "<0/> Назад"
+
+#: src/components/home/HeroSection.tsx:15
+msgid "24/7 Support"
+msgstr "Поддержка 24/7"
+
+#: src/components/home/Footer.tsx:103
+msgid "About Us"
+msgstr "О нас"
+
+#: src/components/auth/RegistrationForm.tsx:55
+msgid "Account created successfully"
+msgstr "Аккаунт успешно создан"
+
+#: src/components/user/MyProfilePage.tsx:29
+msgid "Account Statistics"
+msgstr "Статистика аккаунта"
+
+#: src/components/property/PropertyHeroSection.tsx:115
+msgid "Active filters:"
+msgstr "Активные фильтры:"
+
+#: src/components/user/MyProfilePage.tsx:61
+msgid "Active Listings"
+msgstr "Активные объявления"
+
+#: src/components/property/create-property/CreatePropertyContactInfo.tsx:182
+msgid "Add a contact number below to get started"
+msgstr "Добавьте контактный номер ниже, чтобы начать"
+
+#: src/components/property/create-property/CreatePropertyContactInfo.tsx:37
+msgid "Add contact details for potential buyers"
+msgstr "Добавьте контактную информацию для потенциальных покупателей"
+
+#: src/components/property/create-property/PropertyPhotoUpload.tsx:120
+msgid "Add more"
+msgstr "Добавить еще"
+
+#: src/components/property/create-property/CreatePropertyContactInfo.tsx:94
+msgid "Add New"
+msgstr "Добавить новое"
+
+#: src/components/property/create-property/CreatePropertyContactInfo.tsx:195
+msgid "Add New Contact Number"
+msgstr "Добавить новый контактный номер"
+
+#: src/components/user/UpdateProfilePage.tsx:288
+msgid "Add Number"
+msgstr "Добавить номер"
+
+#: src/components/property/create-property/CreatePropertyContactInfo.tsx:231
+msgid "Add to Selected Numbers"
+msgstr "Добавить в выбранные номера"
+
+#: src/components/user/UpdateProfilePage.tsx:353
+msgid "Add Your First Number"
+msgstr "Добавьте ваш первый номер"
+
+#: src/components/property/create-property/CreatePropertyAdditionals.tsx:26
+msgid "Additional Property Features"
+msgstr "Additional Property Features"
+
+#: src/components/property/PropertyFilter.tsx:109
+msgid "Advanced Search"
+msgstr "Расширенный поиск"
+
+#: src/components/home/Footer.tsx:144
+msgid "All rights reserved."
+msgstr "Все права защищены."
+
+#: src/config/property.ts:6
+msgctxt "RegionList"
+msgid "Almaty"
+msgstr "Алматы"
+
+#: src/components/auth/RegistrationForm.tsx:260
+msgid "Already have an account?"
+msgstr "Уже есть аккаунт?"
+
+#: src/components/shared/FallbackError.tsx:9
+msgid "An error occurred."
+msgstr "Произошла ошибка."
+
+#: src/components/auth/LoginForm.tsx:58
+#: src/components/auth/RegistrationForm.tsx:70
+msgid "An unexpected error occurred."
+msgstr "Произошла непредвиденная ошибка."
+
+#: src/commands/DeletePropertyCommand.tsx:67
+msgid "Are you sure you want to delete this property?"
+msgstr "Вы уверены, что хотите удалить этот объект?"
+
+#: src/components/property/create-property/CreatePropertyDetails.tsx:135
+#: src/components/property/PropertyCard.tsx:178
+#: src/components/property/PropertyCard.tsx:307
+#: src/components/property/PropertyDetailPage.tsx:317
+#: src/components/property/PropertyDetailPage.tsx:371
+#: src/components/property/PropertyDetailPage.tsx:578
+msgid "Area"
+msgstr "Площадь"
+
+#: src/config/property.ts:10
+msgctxt "RegionList"
+msgid "Astana"
+msgstr "Астана"
+
+#: src/components/home/Footer.tsx:119
+msgid "Astana, Kazakhstan"
+msgstr "Астана, Казахстан"
+
+#: src/components/property/PropertyDetailPage.tsx:557
+msgid "Available during business hours"
+msgstr "Доступно в рабочее время"
+
+#: src/components/user/UpdateProfilePage.tsx:97
+msgid "Avatar uploaded"
+msgstr "Аватар успешно загружен"
+
+#: src/app/[lang]/(main)/seller/create-property/layout.tsx:14
+msgid "Back to my properties"
+msgstr "Вернуться к моим объявлениям"
+
+#: src/components/property/create-property/CreatePropertyDetails.tsx:154
+#: src/components/property/PropertyDetailPage.tsx:402
+msgid "Cadastral Number"
+msgstr "Кадастровый номер"
+
+#: src/components/property/PropertyDetailPage.tsx:554
+#: src/components/property/PropertyDetailPage.tsx:627
+msgid "Call Now"
+msgstr "Позвонить сейчас"
+
+#: src/components/property/create-property/CreatePropertyContactInfo.tsx:89
+#: src/components/property/PropertyFilter.tsx:242
+#: src/components/user/UpdateProfilePage.tsx:191
+msgid "Cancel"
+msgstr "Отмена"
+
+#: src/components/property/create-property/CreatePropertyLocation.tsx:129
+msgid "City:"
+msgstr "Город:"
+
+#: src/components/property/PropertyHeroSection.tsx:136
+msgid "Clear all"
+msgstr "Очистить все"
+
+#: src/components/global/Header.tsx:85
+msgid "Coming soon"
+msgstr "Скоро"
+
+#: src/config/formatter.ts:182
+msgctxt "PropertyPurpose"
+msgid "Commercial"
+msgstr "Коммерциялый"
+
+#: src/components/home/Footer.tsx:111
+#: src/components/property/PropertyDetailPage.tsx:342
+msgid "Contact"
+msgstr "Контакты"
+
+#: src/components/property/create-property/CreateProperty.tsx:272
+#: src/components/property/create-property/CreatePropertyContactInfo.tsx:34
+msgid "Contact Information"
+msgstr "Контактная информация"
+
+#: src/components/property/PropertyDetailPage.tsx:564
+msgid "Contact information not available"
+msgstr "Контактная информация не доступна"
+
+#: src/components/user/UpdateProfilePage.tsx:274
+msgid "Contact Numbers"
+msgstr "Контактные номера"
+
+#: src/components/property/create-property/CreatePropertyContactInfo.tsx:207
+msgid "Contact Phone Number"
+msgstr "Контактный номер телефона"
+
+#: src/components/property/PropertyDetailPage.tsx:540
+msgid "Contact Seller"
+msgstr "Связаться с продавцом"
+
+#: src/components/auth/RegistrationForm.tsx:119
+msgid "Create an account"
+msgstr "Создать аккаунт"
+
+#: src/components/user/MyProfilePage.tsx:79
+msgid "Create New Listing"
+msgstr "Создать новое объявление"
+
+#: src/components/global/components/UserProfilePopover.tsx:97
+#: src/components/shared/Stepper.tsx:132
+msgid "Create property"
+msgstr "Создать объявление"
+
+#: src/components/property/create-property/CreateProperty.tsx:312
+msgid "Create Property"
+msgstr "Создать объект"
+
+#: src/components/property/create-property/CreatePropertyContactInfo.tsx:159
+msgid "Currently selected"
+msgstr "Выбранное"
+
+#: src/config/formatter.ts:186
+msgctxt "PropertyPurpose"
+msgid "Dacha"
+msgstr "Дача"
+
+#: src/commands/DeletePropertyCommand.tsx:77
+msgid "Delete"
+msgstr "Удалить"
+
+#: src/commands/DeletePropertyCommand.tsx:59
+msgid "Delete Property"
+msgstr "Удалить объект"
+
+#: src/components/property/create-property/CreatePropertyDetails.tsx:169
+#: src/components/property/PropertyDetailPage.tsx:357
+msgid "Description"
+msgstr "Описание"
+
+#: src/components/home/HomePage.tsx:35
+msgid "Discover premium land opportunities across Kazakhstan's most sought-after regions"
+msgstr "Откройте для себя премиальные земельные участки по всему Казахстану"
+
+#: src/components/auth/AuthAnimation.tsx:31
+#: src/components/home/HeroSection.tsx:38
+msgid "Discover verified land opportunities across Kazakhstan. From tourism developments to commercial projects - connect with trusted sellers and make informed investment decisions."
+msgstr "Откройте для себя проверенные земельные участки по всему Казахстану. От туристических объектов до коммерческих проектов - связывайтесь с надежными продавцами и принимайте обоснованные инвестиционные решения."
+
+#: src/components/property/create-property/CreatePropertyDetails.tsx:90
+#: src/components/property/PropertyDetailPage.tsx:395
+msgid "Divisibility"
+msgstr "Разделимость"
+
+#: src/config/formatter.ts:238
+msgctxt "Divisibility"
+msgid "Divisible"
+msgstr "Делимый"
+
+#: src/components/property/create-property/CreatePropertyAdditionals.tsx:102
+#: src/components/property/PropertyDetailPage.tsx:465
+msgid "Document Status"
+msgstr "Статус документов"
+
+#: src/components/auth/LoginForm.tsx:199
+msgid "Don't have an account?"
+msgstr "Нет аккаунта?"
+
+#: src/components/shared/FileInput.tsx:72
+msgid "Drag and drop files here or click to upload"
+msgstr "Перетащите файлы сюда или нажмите для загрузки"
+
+#: src/components/user/UpdateProfilePage.tsx:206
+msgid "Edit"
+msgstr "Редактировать"
+
+#: src/components/auth/LoginForm.tsx:142
+#: src/components/auth/RegistrationForm.tsx:147
+msgid "Email"
+msgstr "Электронная почта"
+
+#: src/components/user/UpdateProfilePage.tsx:244
+msgid "Email Address"
+msgstr "Адрес электронной почты"
+
+#: src/components/auth/RegistrationForm.tsx:67
+msgid "Email already in use, please use a different email."
+msgstr "Email уже используется, пожалуйста, используйте другой email."
+
+#: src/config/global.tsx:4
+msgid "English"
+msgstr "Английский"
+
+#: src/components/property/create-property/CreatePropertyContactInfo.tsx:208
+msgid "Enter a phone number in Kazakhstan format"
+msgstr "Введите номер телефона в формате Казахстана"
+
+#: src/components/property/create-property/CreateProperty.tsx:258
+msgid "Enter the additionals of the property"
+msgstr "Введите дополнительные параметры объекта"
+
+#: src/components/property/create-property/CreateProperty.tsx:273
+msgid "Enter the contact information of the property"
+msgstr "Введите контактную информацию объекта"
+
+#: src/components/property/create-property/CreateProperty.tsx:253
+msgid "Enter the details of the property"
+msgstr "Введите детали объекта"
+
+#: src/components/property/create-property/CreateProperty.tsx:263
+msgid "Enter the location of the property"
+msgstr "Введите местоположение объекта"
+
+#: src/components/property/create-property/CreateProperty.tsx:35
+msgid "Enter your cadastral number."
+msgstr "Введите кадастровый номер."
+
+#: src/components/property/create-property/CreateProperty.tsx:76
+msgid "Enter your contact phone numbers."
+msgstr "Введите ваши контактные номера телефона."
+
+#: src/components/auth/LoginForm.tsx:118
+msgid "Enter your credentials to access your account"
+msgstr "Введите свои учетные данные для доступа к вашему аккаунту"
+
+#: src/components/auth/RegistrationForm.tsx:123
+msgid "Enter your credentials to create an account"
+msgstr "Введите свои данные для создания аккаунта"
+
+#: src/components/property/create-property/CreateProperty.tsx:33
+msgid "Enter your description."
+msgstr "Введите описание."
+
+#: src/components/property/create-property/CreateProperty.tsx:42
+msgid "Enter your document statuses."
+msgstr "Введите статусы документов."
+
+#: src/components/auth/RegistrationForm.tsx:32
+msgid "Enter your first name."
+msgstr "Введите ваше имя."
+
+#: src/components/auth/RegistrationForm.tsx:33
+msgid "Enter your last name."
+msgstr "Введите вашу фамилию."
+
+#: src/components/property/create-property/CreateProperty.tsx:44
+msgid "Enter your locations."
+msgstr "Введите местоположения."
+
+#: src/components/auth/LoginForm.tsx:31
+#: src/components/auth/RegistrationForm.tsx:31
+msgid "Enter your password."
+msgstr "Введите ваш пароль."
+
+#: src/components/property/create-property/CreateProperty.tsx:57
+msgid "Enter your photos."
+msgstr "Загрузите фотографии."
+
+#: src/components/property/create-property/CreateProperty.tsx:32
+msgid "Enter your purpose."
+msgstr "Введите назначение."
+
+#: src/components/property/create-property/CreateProperty.tsx:87
+msgid "Enter your region code."
+msgstr "Введите код региона."
+
+#: src/components/property/create-property/CreateProperty.tsx:86
+msgid "Enter your region."
+msgstr "Введите регион."
+
+#: src/components/property/create-property/CreateProperty.tsx:43
+msgid "Enter your tourism purposes."
+msgstr "Введите цели туризма."
+
+#: src/components/property/create-property/CreateProperty.tsx:41
+msgid "Enter your utilities."
+msgstr "Введите коммунальные услуги."
+
+#: src/components/global/Header.tsx:68
+msgid "Explore"
+msgstr "Обзор"
+
+#: src/components/home/HomePage.tsx:76
+msgid "Explore More Properties <0/>"
+msgstr "Обзор большего количества объектов <0/>"
+
+#: src/components/favourite/FavouritePage.tsx:55
+msgid "Failed to clear favorites"
+msgstr "Не удалось очистить избранное"
+
+#: src/commands/DeletePropertyCommand.tsx:51
+msgid "Failed to delete property"
+msgstr "Не удалось удалить объект"
+
+#: src/components/user/UpdateProfilePage.tsx:99
+msgid "Failed to upload avatar"
+msgstr "Не удалось загрузить аватар"
+
+#: src/components/property/create-property/PropertyPhotoUpload.tsx:57
+msgid "Failed to upload photo presign, please try again."
+msgstr "Не удалось загрузить фотографию, пожалуйста, попробуйте снова."
+
+#: src/components/property/create-property/PropertyPhotoUpload.tsx:33
+msgid "Failed to upload photo, please try again."
+msgstr "Не удалось загрузить фотографию, пожалуйста, попробуйте снова."
+
+#: src/config/formatter.ts:190
+msgctxt "PropertyPurpose"
+msgid "Farm"
+msgstr "Ферма"
+
+#: src/components/user/MyProfilePage.tsx:43
+msgid "Favorites"
+msgstr "Избранное"
+
+#: src/components/favourite/FavouritePage.tsx:52
+#: src/components/favourite/FavouritePage.tsx:70
+msgid "Favorites cleared"
+msgstr "Избранное очищено"
+
+#: src/components/global/components/UserProfilePopover.tsx:110
+#: src/components/global/MobileBottomNavigation.tsx:41
+#: src/components/home/Footer.tsx:85
+msgid "Favourites"
+msgstr "Избранное"
+
+#: src/components/home/HomePage.tsx:32
+msgid "Featured Properties"
+msgstr "Рекомендуемые объекты"
+
+#: src/components/property/create-property/CreatePropertyAdditionals.tsx:20
+#: src/components/property/create-property/CreatePropertyDetails.tsx:29
+msgid "Fill in the information below"
+msgstr "Заполните информацию ниже"
+
+#: src/components/property/PropertyHeroSection.tsx:74
+msgid "Filters"
+msgstr "Фильтры"
+
+#: src/components/auth/AuthAnimation.tsx:22
+msgid "Find Your"
+msgstr "Найдите свою"
+
+#: src/components/home/HeroSection.tsx:31
+msgid "Find Your Perfect"
+msgstr "Найдите идеальные"
+
+#: src/components/property/PropertyFilter.tsx:112
+msgid "Find your perfect property with detailed filters"
+msgstr "Найдите идеальный участок с помощью детальных фильтров"
+
+#: src/components/auth/RegistrationForm.tsx:199
+msgid "First name"
+msgstr "Имя"
+
+#: src/components/user/UpdateProfilePage.tsx:218
+msgid "First Name"
+msgstr "Имя"
+
+#: src/components/property/create-property/CreatePropertyLocation.tsx:111
+msgid "Full formatted address:"
+msgstr "Полное форматированное адресное место:"
+
+#: src/components/global/Header.tsx:61
+#: src/components/global/MobileBottomNavigation.tsx:37
+msgid "Home"
+msgstr "Главная"
+
+#: src/config/formatter.ts:194
+msgctxt "PropertyPurpose"
+msgid "Horticulture"
+msgstr "Садоводство"
+
+#: src/config/formatter.ts:220
+msgctxt "PledgeStatus"
+msgid "In Pledge"
+msgstr "В залоге"
+
+#: src/config/formatter.ts:198
+msgctxt "PropertyPurpose"
+msgid "Individual Housing"
+msgstr "Индивидуальное жилищное строительство"
+
+#: src/config/formatter.ts:242
+msgctxt "Divisibility"
+msgid "Indivisible"
+msgstr "Неделимый"
+
+#: src/components/auth/LoginForm.tsx:30
+#: src/components/auth/RegistrationForm.tsx:30
+msgid "Invalid email."
+msgstr "Неверный email."
+
+#: src/components/auth/LoginForm.tsx:55
+msgid "Invalid password."
+msgstr "Неверный пароль."
+
+#: src/config/formatter.ts:115
+msgid "Just now"
+msgstr "Только что"
+
+#: src/config/global.tsx:6
+msgid "Kazakh"
+msgstr "Казахский"
+
+#: src/components/home/HeroSection.tsx:26
+msgid "Kazakhstan's Premier Land Marketplace"
+msgstr "Ведущая площадка земельных участков Казахстана"
+
+#: src/components/home/Footer.tsx:38
+msgid "Kazakhstan's premier platform for tourism land and development opportunities. Connecting investors, developers, and landowners with verified properties and professional support."
+msgstr "Ведущая платформа Казахстана для туристических земель и возможностей развития. Связываем инвесторов, застройщиков и землевладельцев с проверенными объектами и профессиональной поддержкой."
+
+#: src/components/home/HeroSection.tsx:33
+msgid "Land Investment"
+msgstr "Земельные инвестиции"
+
+#: src/components/shared/LocaleSelect.tsx:33
+msgid "Language"
+msgstr "Язык"
+
+#: src/components/auth/RegistrationForm.tsx:227
+msgid "Last name"
+msgstr "Фамилия"
+
+#: src/components/user/UpdateProfilePage.tsx:233
+msgid "Last Name"
+msgstr "Фамилия"
+
+#: src/components/property/create-property/PropertyPhotoUpload.tsx:65
+msgid "Let's now upload photo"
+msgstr "Теперь загрузите фотографии"
+
+#: src/components/property/PropertyCard.tsx:55
+msgid "Link copied to clipboard"
+msgstr "Ссылка скопирована в буфер обмена"
+
+#: src/components/home/Footer.tsx:94
+msgid "List Property"
+msgstr "Разместить объявление"
+
+#: src/components/global/Header.tsx:75
+#: src/components/global/MobileBottomNavigation.tsx:49
+msgid "List your land"
+msgstr "Разместить участок"
+
+#: src/components/property/PropertyDetailPage.tsx:592
+msgid "Listed"
+msgstr "Размещен"
+
+#: src/components/property/StandartizedListView.tsx:132
+msgid "Load More Properties"
+msgstr "Загрузить еще объекты"
+
+#: src/components/property/StandartizedListView.tsx:124
+msgid "Loading more properties..."
+msgstr "Загрузка большего количества объектов..."
+
+#: src/components/property/create-property/CreatePropertyAdditionals.tsx:62
+#: src/components/property/PropertyDetailPage.tsx:480
+#: src/components/property/PropertyFilter.tsx:158
+msgid "Location"
+msgstr "Местоположение"
+
+#: src/components/property/PropertyDetailPage.tsx:508
+msgid "Location coordinates not available"
+msgstr "Координаты местоположения не доступны"
+
+#: src/components/property/PropertyDetailPage.tsx:449
+msgid "Locations"
+msgstr "Местоположения"
+
+#: src/components/global/components/UserProfilePopover.tsx:127
+msgid "Log out"
+msgstr "Выйти"
+
+#: src/config/formatter.ts:202
+msgctxt "PropertyPurpose"
+msgid "Low Rise Residential"
+msgstr "Низкоэтажное жилищное строительство"
+
+#: src/components/property/create-property/CreatePropertyLocation.tsx:105
+msgid "Marker coords:"
+msgstr "Координаты маркера:"
+
+#: src/components/property/PropertyHeroSection.tsx:47
+msgid "Max area"
+msgstr "Максимальная площадь"
+
+#: src/components/property/PropertyFilter.tsx:219
+msgid "Max area m²"
+msgstr "Максимальная площадь м²"
+
+#: src/components/property/PropertyHeroSection.tsx:45
+msgid "Max price"
+msgstr "Максимальная цена"
+
+#: src/components/property/PropertyFilter.tsx:191
+msgid "Max price (KZT)"
+msgstr "Максимальная цена (KZT)"
+
+#: src/components/user/MyProfilePage.tsx:52
+msgid "Member Since"
+msgstr "Участник с момента"
+
+#: src/components/property/PropertyHeroSection.tsx:46
+msgid "Min area"
+msgstr "Минимальная площадь"
+
+#: src/components/property/PropertyFilter.tsx:205
+msgid "Min area m²"
+msgstr "Минимальная площадь м²"
+
+#: src/components/property/PropertyFilter.tsx:209
+msgid "Min area..."
+msgstr "Минимальная площадь..."
+
+#: src/components/property/PropertyHeroSection.tsx:44
+msgid "Min price"
+msgstr "Минимальная цена"
+
+#: src/components/property/PropertyFilter.tsx:177
+msgid "Min price (KZT)"
+msgstr "Минимальная цена (KZT)"
+
+#: src/components/global/components/UserProfilePopover.tsx:84
+#: src/components/global/MobileBottomNavigation.tsx:45
+msgid "My listings"
+msgstr "Мои объекты"
+
+#: src/components/global/components/UserProfilePopover.tsx:71
+msgid "My profile"
+msgstr "Мой аккаунт"
+
+#: src/components/property/create-property/CreateProperty.tsx:320
+#: src/components/shared/Stepper.tsx:141
+msgid "Next <0/>"
+msgstr "Далее <0/>"
+
+#: src/components/user/UpdateProfilePage.tsx:338
+msgid "No contact numbers added yet"
+msgstr "Контактные номера еще не добавлены"
+
+#: src/components/shared/FallbackEmptyState.tsx:9
+msgid "No properties found."
+msgstr "Объекты не найдены."
+
+#: src/components/property/create-property/CreatePropertyContactInfo.tsx:179
+msgid "No saved numbers yet"
+msgstr "Сохраненные номера еще не добавлены"
+
+#: src/config/formatter.ts:224
+msgctxt "PledgeStatus"
+msgid "Not in Pledge"
+msgstr "Не в залоге"
+
+#: src/config/formatter.ts:246
+msgctxt "Divisibility"
+msgid "Not Specified"
+msgstr "Не указано"
+
+#: src/config/formatter.ts:228
+msgctxt "PledgeStatus"
+msgid "Not Specified"
+msgstr "Не указано"
+
+#: src/components/property/create-property/CreatePropertyContactInfo.tsx:248
+msgid "numbers"
+msgstr "номеров"
+
+#: src/config/formatter.ts:206
+msgctxt "PropertyPurpose"
+msgid "Other"
+msgstr "Другое"
+
+#: src/components/auth/LoginForm.tsx:167
+#: src/components/auth/RegistrationForm.tsx:172
+msgid "Password"
+msgstr "Пароль"
+
+#: src/components/property/PropertyCard.tsx:314
+#: src/components/property/PropertyDetailPage.tsx:528
+msgid "Per m²"
+msgstr "За м²"
+
+#: src/components/auth/AuthAnimation.tsx:24
+msgid "Perfect Land Investment"
+msgstr "Идеальная земельная инвестиция"
+
+#: src/components/user/UpdateProfilePage.tsx:185
+msgid "Personal Information"
+msgstr "Личная информация"
+
+#: src/components/property/PropertyDetailPage.tsx:546
+#: src/components/user/UpdateProfilePage.tsx:258
+msgid "Phone Number"
+msgstr "Номер телефона"
+
+#: src/components/property/create-property/PropertyPhotoUpload.tsx:31
+#: src/components/property/create-property/PropertyPhotoUpload.tsx:55
+msgid "Photo uploaded successfully"
+msgstr "Фотография успешно загружена"
+
+#: src/components/property/create-property/CreateProperty.tsx:31
+#: src/components/property/create-property/CreateProperty.tsx:34
+msgid "Please enter a number."
+msgstr "Пожалуйста, введите число."
+
+#: src/components/property/create-property/CreateProperty.tsx:31
+#: src/components/property/create-property/CreateProperty.tsx:34
+msgid "Please enter a positive number."
+msgstr "Пожалуйста, введите положительное число."
+
+#: src/components/property/create-property/CreatePropertyDetails.tsx:65
+#: src/components/property/PropertyDetailPage.tsx:389
+msgid "Pledge Status"
+msgstr "Статус залога"
+
+#: src/components/property/create-property/CreatePropertyLocation.tsx:141
+msgid "Postal code:"
+msgstr "Почтовый индекс:"
+
+#: src/components/property/create-property/CreatePropertyDetails.tsx:115
+msgid "Price"
+msgstr "Цена"
+
+#: src/components/property/PropertyCard.tsx:185
+#: src/components/property/PropertyDetailPage.tsx:300
+#: src/components/property/PropertyDetailPage.tsx:377
+msgid "Price per m²"
+msgstr "Цена за м²"
+
+#: src/components/home/Footer.tsx:151
+msgid "Privacy Policy"
+msgstr "Политика конфиденциальности"
+
+#: src/components/property/PropertyHeroSection.tsx:86
+msgid "properties"
+msgstr "объектов"
+
+#: src/components/home/Footer.tsx:76
+msgid "Properties"
+msgstr "Объекты"
+
+#: src/components/user/MyProfilePage.tsx:36
+msgid "Properties Listed"
+msgstr "Размещено объектов"
+
+#: src/components/property/PropertyCard.tsx:38
+msgid "Property added to favorites"
+msgstr "Объект добавлен в избранное"
+
+#: src/components/property/create-property/CreateProperty.tsx:257
+msgid "Property Additionals"
+msgstr "Property Additionals"
+
+#: src/components/property/create-property/CreateProperty.tsx:199
+msgid "Property created successfully"
+msgstr "Объект успешно создан"
+
+#: src/commands/DeletePropertyCommand.tsx:23
+msgid "Property deleted successfully"
+msgstr "Объект успешно удален"
+
+#: src/components/property/create-property/CreatePropertyAdditionals.tsx:17
+#: src/components/property/create-property/CreatePropertyDetails.tsx:26
+msgid "Property details"
+msgstr "Детали объекта"
+
+#: src/components/property/PropertyDetailPage.tsx:366
+msgid "Property Details"
+msgstr "Детали объекта"
+
+#: src/components/property/PropertyDetailPage.tsx:573
+msgid "Property Info"
+msgstr "Property Info"
+
+#: src/components/property/create-property/CreateProperty.tsx:252
+msgid "Property Information"
+msgstr "Информация об объекте"
+
+#: src/components/property/create-property/CreateProperty.tsx:262
+msgid "Property Location"
+msgstr "Property Location"
+
+#: src/components/property/PropertyFilter.tsx:138
+msgid "Property purpose"
+msgstr "Назначение объекта"
+
+#: src/components/property/PropertyCard.tsx:38
+msgid "Property removed from favorites"
+msgstr "Объект удален из избранного"
+
+#: src/components/property/create-property/CreateProperty.tsx:216
+msgid "Property updated successfully"
+msgstr "Объект успешно обновлен"
+
+#: src/components/property/create-property/CreatePropertyDetails.tsx:40
+#: src/components/property/PropertyDetailPage.tsx:328
+#: src/components/property/PropertyDetailPage.tsx:383
+#: src/components/property/PropertyDetailPage.tsx:584
+#: src/components/property/PropertyHeroSection.tsx:43
+msgid "Purpose"
+msgstr "Назначение"
+
+#: src/components/home/Footer.tsx:67
+msgid "Quick Links"
+msgstr "Быстрые ссылки"
+
+#: src/components/property/create-property/CreatePropertyLocation.tsx:44
+#: src/components/property/PropertyDetailPage.tsx:599
+#: src/components/property/PropertyHeroSection.tsx:42
+msgid "Region"
+msgstr "Регион"
+
+#: src/components/property/create-property/CreatePropertyLocation.tsx:135
+msgid "Region text:"
+msgstr "Текст региона:"
+
+#: src/components/global/Header.tsx:83
+msgid "Rent"
+msgstr "Аренда"
+
+#: src/config/global.tsx:5
+msgid "Russian"
+msgstr "Русский"
+
+#: src/components/user/UpdateProfilePage.tsx:202
+msgid "Save"
+msgstr "Сохранить"
+
+#: src/components/home/HeroSection.tsx:54
+msgid "Search by location, type, or price range..."
+msgstr "Поиск по местоположению, типу или диапазону цен..."
+
+#: src/components/property/PropertyFilter.tsx:246
+msgid "Search Properties"
+msgstr "Искать объекты"
+
+#: src/components/shared/Select.tsx:42
+msgid "Select an option…"
+msgstr "Выберите вариант…"
+
+#: src/components/property/create-property/CreatePropertyContactInfo.tsx:70
+msgid "Select from your profile or add a new one"
+msgstr "Выберите из вашего профиля или добавьте новый"
+
+#: src/components/property/PropertyFilter.tsx:164
+msgid "Select location"
+msgstr "Выберите местоположение"
+
+#: src/components/property/create-property/CreatePropertyDetails.tsx:45
+#: src/components/property/PropertyFilter.tsx:142
+msgid "Select purpose"
+msgstr "Выберите назначение"
+
+#: src/components/property/create-property/CreatePropertyContactInfo.tsx:245
+msgid "Selected Contact Numbers"
+msgstr "Выбранные контактные номера"
+
+#: src/components/property/create-property/CreatePropertyLocation.tsx:98
+msgid "Selected region code:"
+msgstr "Выбранный код региона:"
+
+#: src/components/user/MyProfilePage.tsx:68
+msgid "Seller ID"
+msgstr "ID продавца"
+
+#: src/components/property/PropertyDetailPage.tsx:632
+msgid "Share"
+msgstr "Поделиться"
+
+#: src/components/property/PropertyHeroSection.tsx:86
+msgid "Showing"
+msgstr "Показано"
+
+#: src/config/property.ts:14
+msgctxt "RegionList"
+msgid "Shymkent"
+msgstr "Шымкент"
+
+#: src/components/auth/LoginForm.tsx:187
+#: src/components/auth/RegistrationForm.tsx:267
+#: src/components/global/Header.tsx:112
+msgid "Sign in"
+msgstr "Войти"
+
+#: src/components/auth/LoginForm.tsx:206
+#: src/components/auth/RegistrationForm.tsx:248
+msgid "Sign up"
+msgstr "Зарегистрироваться"
+
+#: src/components/property/create-property/CreatePropertyLocation.tsx:117
+msgid "Street:"
+msgstr "Улица:"
+
+#: src/components/property/create-property/CreatePropertyLocation.tsx:123
+msgid "Sublocality:"
+msgstr "Подрайон:"
+
+#: src/config/formatter.ts:210
+msgctxt "PropertyPurpose"
+msgid "Subsidiary Farming"
+msgstr "Коммунальное хозяйство"
+
+#: src/components/home/Footer.tsx:157
+msgid "Terms of Service"
+msgstr "Условия использования"
+
+#: src/components/property/PropertyDetailPage.tsx:523
+#: src/components/property/PropertyDetailPage.tsx:617
+msgid "Total Price"
+msgstr "Общая цена"
+
+#: src/components/global/Header.tsx:51
+msgid "Tourism Land Marketplace"
+msgstr "Маркетплейс туристических земель"
+
+#: src/components/property/create-property/CreatePropertyAdditionals.tsx:42
+msgid "Tourism Purpose"
+msgstr "Цель туризма"
+
+#: src/components/property/PropertyDetailPage.tsx:417
+msgid "Tourism Purposes"
+msgstr "Цели туризма"
+
+#: src/components/home/HeroSection.tsx:14
+msgid "Trusted Sellers"
+msgstr "Надежные продавцы"
+
+#: src/components/property/PropertyFilter.tsx:195
+#: src/components/property/PropertyFilter.tsx:223
+msgid "Unlimited"
+msgstr "Неограниченно"
+
+#: src/components/shared/Stepper.tsx:132
+msgid "Update property"
+msgstr "Обновить объект"
+
+#: src/components/property/create-property/CreateProperty.tsx:312
+msgid "Update Property"
+msgstr "Обновить объект"
+
+#: src/components/property/create-property/PropertyPhotoUpload.tsx:68
+msgid "Upload at least 1 photo"
+msgstr "Загрузите хотя бы 1 фото"
+
+#: src/components/property/create-property/CreateProperty.tsx:267
+msgid "Upload Photos"
+msgstr "Загрузить фото"
+
+#: src/components/property/create-property/CreateProperty.tsx:268
+msgid "Upload photos of the property"
+msgstr "Загрузите фотографии объекта"
+
+#: src/components/user/UpdateProfilePage.tsx:75
+msgid "Uploading avatar..."
+msgstr "Загрузка аватара..."
+
+#: src/components/property/create-property/PropertyPhotoUpload.tsx:28
+msgid "Uploading photo..."
+msgstr "Загрузка фотографии..."
+
+#: src/components/auth/LoginForm.tsx:52
+msgid "User not found."
+msgstr "Пользователь не найден."
+
+#: src/components/user/UpdateProfilePage.tsx:62
+msgid "User updated successfully"
+msgstr "Аккаунт успешно обновлен"
+
+#: src/components/property/create-property/CreatePropertyAdditionals.tsx:82
+msgid "Utilities"
+msgstr "Коммунальные услуги"
+
+#: src/components/property/PropertyDetailPage.tsx:433
+msgid "Utilities & Amenities"
+msgstr "Коммунальные услуги и удобства"
+
+#: src/components/home/HeroSection.tsx:13
+msgid "Verified Properties"
+msgstr "Проверенные объекты"
+
+#: src/components/auth/LoginForm.tsx:114
+msgid "Welcome Back"
+msgstr "Добро пожаловать"
+
+#: src/components/property/create-property/CreatePropertyContactInfo.tsx:46
+msgid "Why do we need your contact information?"
+msgstr "Почему мы нуждаемся в вашей контактной информации?"
+
+#: src/components/property/create-property/CreateProperty.tsx:77
+msgid "You can only enter up to 10 phone numbers."
+msgstr "Вы можете ввести только до 10 номеров телефона."
+
+#: src/components/property/create-property/CreatePropertyContactInfo.tsx:49
+msgid "Your contact number will be displayed on the property listing so interested buyers can reach you directly."
+msgstr "Ваш контактный номер будет отображаться на объявлении объекта, чтобы заинтересованные покупатели могли связаться с вами напрямую."
+
+#: src/components/property/create-property/CreatePropertyContactInfo.tsx:62
+msgid "Your Saved Numbers"
+msgstr "Ваши сохраненные номера"
