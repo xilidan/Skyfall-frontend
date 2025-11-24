@@ -1,16 +1,35 @@
 'use client'
 import {openOmnibar} from '@/commands/omnibar/Omnibar'
 import {Button} from '@/components/shared/Button'
+import {tfetch} from '@/lib/tfetch'
 import {cn} from '@/lib/utils'
 import {useApiQuery} from '@/server/api'
-import {GearIcon, Plus} from '@phosphor-icons/react'
-import {UserCircleIcon} from 'lucide-react'
+import {GearIcon, PlusIcon} from '@phosphor-icons/react'
+import {useMutation} from '@tanstack/react-query'
+import {LogOutIcon, UserCircleIcon} from 'lucide-react'
 import {useRouter} from 'next/navigation'
+import {FetchError} from 'ofetch'
 import {useState} from 'react'
+import {toast} from 'sonner'
+import {z} from 'zod'
 import {Chat} from '../chat/Chat'
 
 export function HomePage() {
   const router = useRouter()
+  const logout = useMutation({
+    mutationFn: () => {
+      return tfetch('/api/logout', {
+        method: 'POST',
+        responseBodySchema: z.unknown(),
+      })
+    },
+    onSuccess: () => {
+      router.push('/auth/login')
+    },
+    onError: (error: FetchError) => {
+      toast.error(error?.response?._data?.message)
+    },
+  })
   const [activeChatId, setActiveChatId] = useState<number>(1)
 
   const getMe = useApiQuery(['getMe'])
@@ -29,7 +48,7 @@ export function HomePage() {
             className="w-full justify-start gap-3 bg-indigo-600 text-white hover:bg-indigo-500 shadow-lg shadow-indigo-900/20 hover:shadow-indigo-900/40 transition-all duration-300 rounded-xl py-6"
             onPress={() => setActiveChatId(Date.now())}
           >
-            <Plus weight="bold" className="w-5 h-5" />
+            <PlusIcon weight="bold" className="w-5 h-5" />
             <span className="font-medium">New Chat</span>
           </Button>
         </div>
@@ -86,6 +105,13 @@ export function HomePage() {
             className="p-2 rounded-lg hover:bg-slate-800 text-slate-500 hover:text-indigo-400 transition-colors"
           >
             <GearIcon size={20} />
+          </button>
+
+          <button
+            onClick={() => logout.mutate()}
+            className="p-2 rounded-lg hover:bg-slate-800 text-slate-500 hover:text-indigo-400 transition-colors"
+          >
+            <LogOutIcon size={20} />
           </button>
         </footer>
       </aside>

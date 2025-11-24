@@ -87,6 +87,31 @@ export function getApi() {
       })
     },
 
+    getOrganization: async () => {
+      return appApiFetchClient('/organization', {
+        method: 'GET',
+        responseBodySchema: z.object({
+          name: z.string(),
+          positions: z.array(
+            z.object({
+              id: z.number(),
+              name: z.string(),
+              is_reviewer: z.boolean(),
+            }),
+          ),
+          users: z.array(
+            z.object({
+              name: z.string(),
+              surname: z.string().optional(),
+              email: z.string(),
+              position_id: z.number().optional(),
+              job: z.string().optional(),
+            }),
+          ),
+        }),
+      })
+    },
+
     createOrganization: async (body: {
       name: string
       positions: {
@@ -96,9 +121,10 @@ export function getApi() {
       }[]
       users: {
         name: string
+        surname?: string
         email: string
-        position_id: number
-        job_domain: string
+        position_id?: number
+        job_domain?: string
       }[]
     }) => {
       return appApiFetchClient('/organization', {
@@ -132,9 +158,10 @@ export function getApi() {
       }[]
       users: {
         name: string
+        surname?: string
         email: string
-        position_id: number
-        job_domain: string
+        position_id?: number
+        job_domain?: string
       }[]
     }) => {
       return appApiFetchClient('/organization', {

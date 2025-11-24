@@ -5,11 +5,12 @@ import {FileInput} from '@/components/shared/FileInput'
 import {Select, SelectItem} from '@/components/shared/Select'
 import {Tab, TabList, TabPanel, Tabs} from '@/components/shared/Tabs'
 import {TextField} from '@/components/shared/TextField'
-import {getApi} from '@/server/api'
+import {getApi, useApiQuery} from '@/server/api'
 import {zodResolver} from '@hookform/resolvers/zod'
 import {FloppyDiskIcon, PlusIcon, TrashIcon} from '@phosphor-icons/react'
-import {useState} from 'react'
-import {Controller, useFieldArray, useForm} from 'react-hook-form'
+import {useMutation, useQueryClient} from '@tanstack/react-query'
+import {useEffect} from 'react'
+import {Controller, useFieldArray, useForm, useWatch} from 'react-hook-form'
 import {toast} from 'sonner'
 import {z} from 'zod'
 
@@ -21,9 +22,10 @@ const positionSchema = z.object({
 
 const userSchema = z.object({
   name: z.string().min(1, 'Name is required'),
+  surname: z.string().optional(),
   email: z.string().email('Invalid email'),
-  position_id: z.number(),
-  job_domain: z.string().min(1, 'Job domain is required'),
+  position_id: z.number().optional(),
+  job: z.string().optional(),
 })
 
 const organizationSchema = z.object({
@@ -36,16 +38,14 @@ const organizationSchema = z.object({
 type OrganizationFormValues = z.infer<typeof organizationSchema>
 
 export function OrganizationSettings() {
-  const [isSubmitting, setIsSubmitting] = useState(false)
+  const queryClient = useQueryClient()
+  const organizationQuery = useApiQuery(['getOrganization'])
 
   const form = useForm<OrganizationFormValues>({
     resolver: zodResolver(organizationSchema),
     defaultValues: {
       name: '',
-      positions: [
-        {id: 1, name: 'Junior', is_reviewer: false},
-        {id: 2, name: 'Senior', is_reviewer: true},
-      ],
+      positions: [],
       users: [],
       files: [],
     },
@@ -55,9 +55,22 @@ export function OrganizationSettings() {
     control,
     handleSubmit,
     register,
-    watch,
+    reset,
     formState: {errors},
   } = form
+
+  // Load organization data when it's fetched
+  useEffect(() => {
+    if (organizationQuery.data) {
+      const orgData = organizationQuery.data
+      reset({
+        name: orgData.name || '',
+        positions: orgData.positions || [],
+        users: orgData.users || [],
+        files: [],
+      })
+    }
+  }, [organizationQuery.data, reset])
 
   const {
     fields: positionFields,
@@ -77,29 +90,106 @@ export function OrganizationSettings() {
     name: 'users',
   })
 
-  const positions = watch('positions')
+  const positions = useWatch({control, name: 'positions'})
+  const hasExistingData = !!organizationQuery.data
 
-  const onSubmit = async (data: OrganizationFormValues) => {
-    setIsSubmitting(true)
-    try {
-      // In a real app, we might check if we are creating or updating
-      // For now, we'll just use createOrganization as an example
-      await getApi().createOrganization({
+  const createMutation = useMutation({
+    mutationFn: (data: OrganizationFormValues) =>
+      getApi().createOrganization({
         name: data.name,
         positions: data.positions,
-        users: data.users,
-      })
-      toast.success('Organization settings saved successfully')
-    } catch (error) {
+        users: data.users.map((user) => ({
+          name: user.name,
+          surname: user.surname,
+          email: user.email,
+          position_id: user.position_id,
+          job: user.job,
+        })),
+      }),
+    onSuccess: () => {
+      toast.success('Organization created successfully')
+      void queryClient.invalidateQueries({queryKey: ['getOrganization']})
+    },
+    onError: (error) => {
       console.error(error)
-      toast.error('Failed to save organization settings')
-    } finally {
-      setIsSubmitting(false)
+      toast.error('Failed to create organization')
+    },
+  })
+
+  const updateMutation = useMutation({
+    mutationFn: (data: OrganizationFormValues) =>
+      getApi().updateOrganization({
+        name: data.name,
+        positions: data.positions,
+        users: data.users.map((user) => ({
+          name: user.name,
+          surname: user.surname,
+          email: user.email,
+          position_id: user.position_id,
+          job: user.job,
+        })),
+      }),
+    onSuccess: () => {
+      toast.success('Organization settings updated successfully')
+      void queryClient.invalidateQueries({queryKey: ['getOrganization']})
+    },
+    onError: (error) => {
+      console.error(error)
+      toast.error('Failed to update organization settings')
+    },
+  })
+
+  const onSubmit = async (data: OrganizationFormValues) => {
+    console.log('Form submitted with data:', data)
+
+    // Prepare the payload - exclude files array
+    const payload = {
+      name: data.name,
+      positions: data.positions,
+      users: data.users.map((user) => ({
+        name: user.name,
+        surname: user.surname,
+        email: user.email,
+        position_id: user.position_id,
+        job: user.job,
+      })),
+    }
+
+    console.log('Payload to send:', payload)
+
+    try {
+      if (hasExistingData) {
+        console.log('Updating organization...')
+        await updateMutation.mutateAsync(data)
+      } else {
+        console.log('Creating organization...')
+        await createMutation.mutateAsync(data)
+      }
+    } catch (error) {
+      console.error('Submission error:', error)
+      throw error
     }
   }
 
+  const isSubmitting = createMutation.isPending || updateMutation.isPending
+  const isLoading = organizationQuery.isLoading && !organizationQuery.isError
+
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center h-full">
+        <div className="text-slate-400">Loading organization data...</div>
+      </div>
+    )
+  }
+
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col h-full max-w-4xl mx-auto">
+    <form
+      onSubmit={handleSubmit(onSubmit, (errors) => {
+        console.log('Form validation errors:', errors)
+        toast.error('Please fix form errors before submitting')
+      })}
+      className="flex flex-col h-full max-w-4xl mx-auto"
+    >
       <div className="flex items-center justify-between mb-8 pb-6 border-b border-slate-800/60">
         <div>
           <h2 className="text-2xl font-bold text-transparent bg-clip-text bg-linear-to-r from-indigo-400 to-cyan-400">
@@ -107,14 +197,29 @@ export function OrganizationSettings() {
           </h2>
           <p className="text-sm text-slate-400 mt-1">Manage your company profile, team structure, and personnel.</p>
         </div>
-        <Button
-          type="submit"
-          isDisabled={isSubmitting}
-          className="bg-indigo-600 hover:bg-indigo-500 text-white shadow-lg shadow-indigo-900/20"
-        >
-          <FloppyDiskIcon className="mr-2 h-4 w-4" />
-          Save Changes
-        </Button>
+        <div className="flex gap-2">
+          <Button
+            type="button"
+            variant="secondary"
+            size="sm"
+            onPress={() => {
+              console.log('Form values:', form.getValues())
+              console.log('Form errors:', form.formState.errors)
+              console.log('Is form valid:', form.formState.isValid)
+            }}
+            className="bg-slate-700 hover:bg-slate-600 text-white"
+          >
+            Debug Form
+          </Button>
+          <Button
+            type="submit"
+            isDisabled={isSubmitting}
+            className="bg-indigo-600 hover:bg-indigo-500 text-white shadow-lg shadow-indigo-900/20"
+          >
+            <FloppyDiskIcon className="mr-2 h-4 w-4" />
+            {hasExistingData ? 'Update Changes' : 'Create Organization'}
+          </Button>
+        </div>
       </div>
 
       <Tabs className="flex-1 flex flex-col">
@@ -147,7 +252,7 @@ export function OrganizationSettings() {
                       label="Company Name"
                       placeholder="e.g. Acme Corp"
                       errorMessage={errors.name?.message}
-                      className="w-full"
+                      className="w-full text-white! placeholder:text-white"
                     />
                   )}
                 />
@@ -250,7 +355,15 @@ export function OrganizationSettings() {
               <Button
                 variant="secondary"
                 size="sm"
-                onPress={() => appendUser({name: '', email: '', position_id: positions[0]?.id || 0, job_domain: ''})}
+                onPress={() =>
+                  appendUser({
+                    name: '',
+                    surname: '',
+                    email: '',
+                    position_id: positions[0]?.id,
+                    job: '',
+                  })
+                }
                 className="bg-slate-800 text-slate-300 hover:bg-slate-700 hover:text-white border border-slate-700"
               >
                 <PlusIcon className="mr-2 h-3 w-3" />
@@ -264,15 +377,31 @@ export function OrganizationSettings() {
                   key={field.id}
                   className="grid grid-cols-1 md:grid-cols-12 gap-4 p-4 rounded-xl bg-slate-900/40 border border-slate-800/60 hover:border-slate-700 transition-colors relative group items-start"
                 >
-                  <div className="md:col-span-3">
+                  <div className="md:col-span-2">
                     <Controller
                       control={control}
                       name={`users.${index}.name`}
                       render={({field}) => (
                         <TextField
                           {...field}
-                          placeholder="Full Name"
+                          placeholder="First Name"
+                          label="First Name"
                           errorMessage={errors.users?.[index]?.name?.message}
+                        />
+                      )}
+                    />
+                  </div>
+
+                  <div className="md:col-span-2">
+                    <Controller
+                      control={control}
+                      name={`users.${index}.surname`}
+                      render={({field}) => (
+                        <TextField
+                          {...field}
+                          placeholder="Surname"
+                          label="Surname"
+                          errorMessage={errors.users?.[index]?.surname?.message}
                         />
                       )}
                     />
@@ -286,26 +415,29 @@ export function OrganizationSettings() {
                         <TextField
                           {...field}
                           placeholder="Email Address"
+                          label="Email Address"
                           errorMessage={errors.users?.[index]?.email?.message}
                         />
                       )}
                     />
                   </div>
 
-                  <div className="md:col-span-3">
+                  <div className="md:col-span-2">
                     <Controller
                       control={control}
                       name={`users.${index}.position_id`}
                       render={({field}) => (
                         <Select
-                          {...field}
                           items={positions.map((p) => ({id: p.id, name: p.name}))}
-                          selectedKey={field.value}
-                          onSelectionChange={(key) => field.onChange(Number(key))}
+                          key={field.value ? String(field.value) : null}
+                          onChange={(key) => {
+                            const numKey = key ? Number(key) : undefined
+                            field.onChange(numKey)
+                          }}
                           placeholder="Select Position"
                           errorMessage={errors.users?.[index]?.position_id?.message}
                         >
-                          {(item) => <SelectItem id={item.id}>{item.name}</SelectItem>}
+                          {(item) => <SelectItem id={String(item.id)}>{item.name}</SelectItem>}
                         </Select>
                       )}
                     />
@@ -314,12 +446,13 @@ export function OrganizationSettings() {
                   <div className="md:col-span-3">
                     <Controller
                       control={control}
-                      name={`users.${index}.job_domain`}
+                      name={`users.${index}.job`}
                       render={({field}) => (
                         <TextField
                           {...field}
-                          placeholder="Job Domain"
-                          errorMessage={errors.users?.[index]?.job_domain?.message}
+                          label="Job"
+                          placeholder="Job"
+                          errorMessage={errors.users?.[index]?.job?.message}
                         />
                       )}
                     />
@@ -344,7 +477,13 @@ export function OrganizationSettings() {
                     size="sm"
                     className="mt-2 text-indigo-400 hover:text-indigo-300"
                     onPress={() =>
-                      appendUser({name: '', email: '', position_id: positions[0]?.id || 0, job_domain: ''})
+                      appendUser({
+                        name: '',
+                        surname: '',
+                        email: '',
+                        position_id: positions[0]?.id,
+                        job: '',
+                      })
                     }
                   >
                     Add your first member

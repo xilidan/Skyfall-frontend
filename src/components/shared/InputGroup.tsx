@@ -47,7 +47,7 @@ export function InputGroup({
       )}
     >
       {!!startContent && (
-        <div className="flex h-12 min-w-0 items-center gap-[1ch] px-2 py-3 text-sm font-medium text-gray-400 [&>:is(svg,[role=img])]:text-[1.25em]">
+        <div className="flex h-12 min-w-0 items-center gap-[1ch] px-2 py-3 text-sm font-medium text-white [&>:is(svg,[role=img])]:text-[1.25em]">
           {wrapTextChildren(startContent)}
         </div>
       )}

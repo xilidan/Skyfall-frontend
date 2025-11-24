@@ -18,7 +18,7 @@ export function PasswordField(props: React.ComponentPropsWithRef<typeof TextFiel
             isIconOnly
             className="size-auto p-1"
           >
-            {passwordVisible ? <EyeIcon /> : <EyeSlashIcon />}
+            {passwordVisible ? <EyeIcon color="white" /> : <EyeSlashIcon color="white" />}
           </Button>
 
           {props.endContent}

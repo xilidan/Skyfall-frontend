@@ -8,7 +8,9 @@ import {Blink} from '../shared/Blink'
 
 export function AuthAnimation() {
   return (
-    <div className="h-full bg-linear-to-br from-[#4c669f] via-[#3b5998] to-[#192f6a] relative overflow-hidden">
+    <div className="h-full bg-linear-to-br from-slate-950 via-indigo-950/50 to-slate-950 relative overflow-hidden hidden sm:block">
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,var(--tw-gradient-stops))] from-indigo-900/30 via-transparent to-slate-950/0" />
+
       <DivAnimationFirst className="lg:left-[calc(50%+200px)] lg:top-[-40px]" />
       <DivAnimationSecond className={'lg:right-[calc(50%+200px)] lg:left-auto lg:top-[-40px]'} />
 
@@ -20,14 +22,14 @@ export function AuthAnimation() {
         <div className="mb-20 max-w-lg">
           <h1 className="text-4xl lg:text-6xl font-light text-white mb-6 tracking-tight leading-none">
             <Trans>Your Intelligent</Trans>
-            <span className="block font-bold bg-linear-to-r from-white via-white/90 to-white/70 bg-clip-text text-transparent">
+            <span className="block font-bold text-transparent bg-clip-text bg-linear-to-r from-indigo-400 via-cyan-400 to-indigo-400">
               <Trans>AI Project Manager</Trans>
             </span>
           </h1>
 
-          <div className="w-20 h-1 bg-linear-to-r from-white/80 to-transparent mx-auto mb-8"></div>
+          <div className="w-20 h-1 bg-linear-to-r from-indigo-400/80 via-cyan-400/80 to-transparent mx-auto mb-8"></div>
 
-          <p className="text-white/60 text-lg lg:text-xl font-light leading-relaxed">
+          <p className="text-slate-300/80 text-lg lg:text-xl font-light leading-relaxed">
             <Trans>
               Automate Jira tasks, transcribe meetings, and analyze Merge Requests. From technical specs to delivery -
               streamline your workflow with AI.
@@ -37,26 +39,26 @@ export function AuthAnimation() {
       </div>
 
       <div
-        className="absolute top-20 right-20 w-40 h-40 bg-linear-to-br from-white/10 to-transparent rounded-full blur-2xl animate-pulse"
+        className="absolute top-20 right-20 w-40 h-40 bg-linear-to-br from-indigo-500/20 to-transparent rounded-full blur-2xl animate-pulse"
         style={{animationDuration: '4s'}}
       />
       <div
-        className="absolute bottom-32 left-16 w-28 h-28 bg-linear-to-tl from-white/8 to-transparent rounded-full blur-xl animate-pulse"
+        className="absolute bottom-32 left-16 w-28 h-28 bg-linear-to-tl from-cyan-500/15 to-transparent rounded-full blur-xl animate-pulse"
         style={{animationDelay: '2s', animationDuration: '6s'}}
       />
 
       <div
-        className="absolute top-1/4 right-1/3 w-3 h-3 border border-white/30 rotate-45 animate-spin"
+        className="absolute top-1/4 right-1/3 w-3 h-3 border border-indigo-400/30 rotate-45 animate-spin"
         style={{animationDuration: '20s'}}
       />
 
-      <div className="absolute top-1/3 left-1/3 w-1 h-1 bg-white/60 rounded-full animate-ping" />
+      <div className="absolute top-1/3 left-1/3 w-1 h-1 bg-indigo-400/60 rounded-full animate-ping" />
       <div
-        className="absolute top-1/2 right-1/3 w-1.5 h-1.5 bg-white/40 rounded-full animate-ping"
+        className="absolute top-1/2 right-1/3 w-1.5 h-1.5 bg-cyan-400/40 rounded-full animate-ping"
         style={{animationDelay: '2s'}}
       />
       <div
-        className="absolute bottom-1/4 left-1/2 w-0.5 h-0.5 bg-white/80 rounded-full animate-ping"
+        className="absolute bottom-1/4 left-1/2 w-0.5 h-0.5 bg-indigo-400/80 rounded-full animate-ping"
         style={{animationDelay: '4s'}}
       />
     </div>
@@ -67,7 +69,7 @@ export function DivAnimationFirst({className = '', ...props}: Omit<AllHTMLAttrib
   return (
     <div
       className={cn(
-        'absolute lg:top-[400px] top-[98px] w-[230px] h-[285px] right-[calc(100%_/_2_+_92px)] md:right-[calc(100%_/_2_+_136px)] lg:right-[calc(100%_/_2_+_336px)]',
+        'absolute lg:top-[400px] top-[98px] w-[230px] h-[285px] right-[calc(100%/2+92px)] md:right-[calc(100%/2+136px)] lg:right-[calc(100%/2+336px)]',
         className,
       )}
       {...props}
@@ -87,7 +89,7 @@ export function DivAnimationSecond({className = '', ...props}: Omit<AllHTMLAttri
   return (
     <div
       className={cn(
-        'absolute lg:top-[400px] top-[98px] w-[230px] h-[285px] right-[calc(100%_/_2_+_92px)] md:right-[calc(100%_/_2_+_136px)] lg:right-[calc(100%_/_2_+_336px)]',
+        'absolute lg:top-[400px] top-[98px] w-[230px] h-[285px] right-[calc(100%/2+92px)] md:right-[calc(100%/2+136px)] lg:right-[calc(100%/2+336px)]',
         className,
       )}
       {...props}
