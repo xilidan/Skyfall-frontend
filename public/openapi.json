@@ -1,0 +1,472 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Jira Integration API",
+    "version": "1.0.0",
+    "description": "API for interacting with Jira Cloud via Skyfall Frontend"
+  },
+  "servers": [
+    {
+      "url": "/api/jira",
+      "description": "Local API Server"
+    }
+  ],
+  "paths": {
+    "/users": {
+      "get": {
+        "summary": "Search Users",
+        "description": "Search for Jira users by name or email",
+        "parameters": [
+          {
+            "name": "query",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Search query (name or email)"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of users",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "users": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/JiraUser"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/issues": {
+      "get": {
+        "summary": "List Issues",
+        "parameters": [
+          {
+            "name": "limit",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "default": 50
+            }
+          },
+          {
+            "name": "jql",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of issues",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "issues": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/JiraIssue"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Create Issue",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["summary"],
+                "properties": {
+                  "summary": {"type": "string"},
+                  "description": {"type": "string"},
+                  "issueTypeName": {"type": "string"},
+                  "storyPoints": {"type": "number"},
+                  "assigneeAccountId": {"type": "string"},
+                  "assigneeEmail": {"type": "string", "description": "Email to resolve to accountId"},
+                  "priority": {"type": "string", "enum": ["Highest", "High", "Medium", "Low", "Lowest"]},
+                  "labels": {"type": "array", "items": {"type": "string"}},
+                  "epicLink": {"type": "string"},
+                  "parentKey": {"type": "string"}
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Issue created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/JiraIssue"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/issues/{issueKey}": {
+      "get": {
+        "summary": "Get Issue Details",
+        "parameters": [
+          {
+            "name": "issueKey",
+            "in": "path",
+            "required": true,
+            "schema": {"type": "string"}
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Issue details",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/JiraIssue"
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "summary": "Update Issue",
+        "parameters": [
+          {
+            "name": "issueKey",
+            "in": "path",
+            "required": true,
+            "schema": {"type": "string"}
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "summary": {"type": "string"},
+                  "description": {"type": "string"},
+                  "storyPoints": {"type": "number"},
+                  "assigneeAccountId": {"type": "string"},
+                  "assigneeEmail": {"type": "string"},
+                  "priority": {"type": "string"},
+                  "labels": {"type": "array", "items": {"type": "string"}},
+                  "epicLink": {"type": "string"}
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Issue updated"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete Issue",
+        "parameters": [
+          {
+            "name": "issueKey",
+            "in": "path",
+            "required": true,
+            "schema": {"type": "string"}
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Issue deleted"
+          }
+        }
+      }
+    },
+    "/issues/{issueKey}/transitions": {
+      "get": {
+        "summary": "Get Transitions",
+        "parameters": [
+          {
+            "name": "issueKey",
+            "in": "path",
+            "required": true,
+            "schema": {"type": "string"}
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Available transitions",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "transitions": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {"type": "string"},
+                          "name": {"type": "string"},
+                          "to": {
+                            "type": "object",
+                            "properties": {
+                              "id": {"type": "string"},
+                              "name": {"type": "string"}
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Transition Issue",
+        "parameters": [
+          {
+            "name": "issueKey",
+            "in": "path",
+            "required": true,
+            "schema": {"type": "string"}
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["transitionId"],
+                "properties": {
+                  "transitionId": {"type": "string"},
+                  "fields": {"type": "object"},
+                  "update": {"type": "object"}
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Issue transitioned"
+          }
+        }
+      }
+    },
+    "/backlog": {
+      "get": {
+        "summary": "Get Backlog Issues",
+        "parameters": [
+          {
+            "name": "limit",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "default": 50
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Backlog issues",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "issues": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/JiraIssue"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/backlog/move": {
+      "post": {
+        "summary": "Move Issues to Backlog",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["issueKeys"],
+                "properties": {
+                  "issueKeys": {
+                    "type": "array",
+                    "items": {"type": "string"}
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Issues moved to backlog"
+          }
+        }
+      }
+    },
+    "/sprints": {
+      "get": {
+        "summary": "List Sprints",
+        "responses": {
+          "200": {
+            "description": "List of sprints",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "sprints": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/JiraSprint"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Create Sprint",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["name"],
+                "properties": {
+                  "name": {"type": "string"},
+                  "startDate": {"type": "string", "format": "date-time"},
+                  "endDate": {"type": "string", "format": "date-time"}
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Sprint created"
+          }
+        }
+      }
+    },
+    "/sprints/{sprintId}/issues": {
+      "post": {
+        "summary": "Move Issues to Sprint",
+        "parameters": [
+          {
+            "name": "sprintId",
+            "in": "path",
+            "required": true,
+            "schema": {"type": "integer"}
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["issueKeys"],
+                "properties": {
+                  "issueKeys": {
+                    "type": "array",
+                    "items": {"type": "string"}
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Issues moved to sprint"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "JiraUser": {
+        "type": "object",
+        "properties": {
+          "accountId": {"type": "string"},
+          "displayName": {"type": "string"},
+          "emailAddress": {"type": "string"}
+        }
+      },
+      "JiraIssue": {
+        "type": "object",
+        "properties": {
+          "id": {"type": "string"},
+          "key": {"type": "string"},
+          "fields": {
+            "type": "object",
+            "properties": {
+              "summary": {"type": "string"},
+              "description": {"type": "object", "description": "ADF format"},
+              "status": {
+                "type": "object",
+                "properties": {"name": {"type": "string"}}
+              },
+              "assignee": {"$ref": "#/components/schemas/JiraUser"}
+            }
+          }
+        }
+      },
+      "JiraSprint": {
+        "type": "object",
+        "properties": {
+          "id": {"type": "integer"},
+          "name": {"type": "string"},
+          "state": {"type": "string", "enum": ["active", "closed", "future"]},
+          "startDate": {"type": "string", "format": "date-time"},
+          "endDate": {"type": "string", "format": "date-time"}
+        }
+      }
+    }
+  }
+}

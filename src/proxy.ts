@@ -11,7 +11,7 @@ export async function proxy(request: NextRequest) {
   const url = new URL(request.url)
   const {pathname} = url
 
-  if (pathname.startsWith('/api')) return NextResponse.next()
+  if (pathname.startsWith('/api') || pathname.startsWith('/docs')) return NextResponse.next()
 
   const currentLocaleFromPath = locales.find((loc) => pathname === `/${loc}` || pathname.startsWith(`/${loc}/`)) as
     | Locale
@@ -96,5 +96,5 @@ function getReferrerLocale(requestHeaders: Headers): Locale | undefined {
 }
 
 export const config = {
-  matcher: ['/((?!_next/static|_next/image|api|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)'],
+  matcher: ['/((?!_next/static|_next/image|api|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp|json)$).*)'],
 }
