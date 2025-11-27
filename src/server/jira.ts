@@ -459,6 +459,50 @@ export async function transitionIssue(
   })
 }
 
+// Batch transition issues (change status of multiple issues)
+export type BatchTransitionResult = {
+  success: boolean
+  issueKey: string
+  error?: string
+  index: number
+}
+
+export async function transitionIssuesBatch(
+  items: Array<{
+    issueKey: string
+    transitionId: string
+    fields?: Record<string, any>
+    update?: Record<string, any[]>
+  }>,
+): Promise<BatchTransitionResult[]> {
+  const results: BatchTransitionResult[] = []
+
+  for (let i = 0; i < items.length; i++) {
+    const item = items[i]
+    try {
+      await transitionIssue(item.issueKey, item.transitionId, {
+        fields: item.fields,
+        update: item.update,
+      })
+      results.push({
+        success: true,
+        issueKey: item.issueKey,
+        index: i,
+      })
+    } catch (error: unknown) {
+      const message = error instanceof Error ? error.message : 'Failed to transition issue'
+      results.push({
+        success: false,
+        issueKey: item.issueKey,
+        error: message,
+        index: i,
+      })
+    }
+  }
+
+  return results
+}
+
 // Add comment to issue
 export type JiraComment = {
   id: string
@@ -693,4 +737,52 @@ export type JiraUser = {
 export async function searchUsers(query: string): Promise<JiraUser[]> {
   const response = await jiraFetch<JiraUser[]>(`/user/search?query=${encodeURIComponent(query)}`)
   return response
+}
+
+// Status types
+export type JiraStatus = {
+  id: string
+  name: string
+  description?: string
+  iconUrl?: string
+  statusCategory?: {
+    id: number
+    key: string
+    colorName: string
+    name: string
+  }
+}
+
+export type ProjectStatuses = {
+  self: string
+  id: string
+  name: string
+  subtask: boolean
+  statuses: Array<{
+    self: string
+    description: string
+    iconUrl: string
+    name: string
+    id: string
+    statusCategory: {
+      self: string
+      id: number
+      key: string
+      colorName: string
+      name: string
+    }
+  }>
+}
+
+// Get all statuses in the Jira instance
+export async function getAllStatuses(): Promise<JiraStatus[]> {
+  // Using API v2 for status endpoint as v3 doesn't have a direct all-statuses endpoint
+  return jiraFetch<JiraStatus[]>('/status', {}, 'api/2')
+}
+
+// Get statuses for a specific project (grouped by issue type)
+export async function getProjectStatuses(projectKey?: string): Promise<ProjectStatuses[]> {
+  // JIRA_PROJECT_KEY is guaranteed to be defined due to check at top of file
+  const project = projectKey ?? (JIRA_PROJECT_KEY as string)
+  return jiraFetch<ProjectStatuses[]>(`/project/${encodeURIComponent(project)}/statuses`)
 }

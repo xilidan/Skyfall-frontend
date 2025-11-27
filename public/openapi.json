@@ -49,6 +49,76 @@
         }
       }
     },
+    "/statuses": {
+      "get": {
+        "summary": "Get All Statuses",
+        "description": "Get all available statuses in the Jira instance. Can return all statuses or project-specific statuses grouped by issue type.",
+        "parameters": [
+          {
+            "name": "projectKey",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Optional project key to get statuses for a specific project (grouped by issue type)"
+          },
+          {
+            "name": "grouped",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "boolean",
+              "default": false
+            },
+            "description": "If true, returns statuses grouped by issue type for the project"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of statuses",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "type": "object",
+                      "properties": {
+                        "statuses": {
+                          "type": "array",
+                          "items": {
+                            "$ref": "#/components/schemas/JiraStatus"
+                          }
+                        },
+                        "grouped": {
+                          "type": "boolean",
+                          "const": false
+                        }
+                      }
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "statuses": {
+                          "type": "array",
+                          "items": {
+                            "$ref": "#/components/schemas/ProjectStatuses"
+                          }
+                        },
+                        "grouped": {
+                          "type": "boolean",
+                          "const": true
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/issues": {
       "get": {
         "summary": "List Issues",
@@ -176,7 +246,11 @@
                   "assigneeEmail": {"type": "string"},
                   "priority": {"type": "string"},
                   "labels": {"type": "array", "items": {"type": "string"}},
-                  "epicLink": {"type": "string", "nullable": true, "description": "Epic key to link to, or null to remove from epic"}
+                  "epicLink": {
+                    "type": "string",
+                    "nullable": true,
+                    "description": "Epic key to link to, or null to remove from epic"
+                  }
                 }
               }
             }
@@ -207,13 +281,15 @@
     },
     "/issues/{issueKey}/transitions": {
       "get": {
-        "summary": "Get Transitions",
+        "summary": "Get Available Transitions",
+        "description": "Get all available status transitions for an issue or subtask. Works for both parent issues and child issues (subtasks).",
         "parameters": [
           {
             "name": "issueKey",
             "in": "path",
             "required": true,
-            "schema": {"type": "string"}
+            "schema": {"type": "string"},
+            "description": "Issue key (works for issues and subtasks)"
           }
         ],
         "responses": {
@@ -249,13 +325,15 @@
         }
       },
       "post": {
-        "summary": "Transition Issue",
+        "summary": "Transition Issue Status",
+        "description": "Change the status of an issue or subtask. Works for both parent issues and child issues (subtasks).",
         "parameters": [
           {
             "name": "issueKey",
             "in": "path",
             "required": true,
-            "schema": {"type": "string"}
+            "schema": {"type": "string"},
+            "description": "Issue key (works for issues and subtasks)"
           }
         ],
         "requestBody": {
@@ -266,9 +344,9 @@
                 "type": "object",
                 "required": ["transitionId"],
                 "properties": {
-                  "transitionId": {"type": "string"},
-                  "fields": {"type": "object"},
-                  "update": {"type": "object"}
+                  "transitionId": {"type": "string", "description": "Transition ID from GET /transitions"},
+                  "fields": {"type": "object", "description": "Optional fields to set during transition"},
+                  "update": {"type": "object", "description": "Optional update operations"}
                 }
               }
             }
@@ -276,7 +354,113 @@
         },
         "responses": {
           "200": {
-            "description": "Issue transitioned"
+            "description": "Issue status changed successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "ok": {"type": "boolean"}
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/issues/transitions/batch": {
+      "post": {
+        "summary": "Batch Transition Issues",
+        "description": "Change the status of multiple issues or subtasks in a single request. Works for both parent issues and child issues (subtasks).",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["transitions"],
+                "properties": {
+                  "transitions": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "required": ["issueKey", "transitionId"],
+                      "properties": {
+                        "issueKey": {"type": "string", "description": "Issue key (works for issues and subtasks)"},
+                        "transitionId": {"type": "string", "description": "Transition ID from GET /transitions"},
+                        "fields": {"type": "object", "description": "Optional fields to set during transition"},
+                        "update": {"type": "object", "description": "Optional update operations"}
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Batch transition results",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "results": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "success": {"type": "boolean"},
+                          "issueKey": {"type": "string"},
+                          "error": {"type": "string"},
+                          "index": {"type": "integer"}
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/issues/{issueKey}/status": {
+      "get": {
+        "summary": "Get Issue Status",
+        "description": "Get the current status of an issue or subtask",
+        "parameters": [
+          {
+            "name": "issueKey",
+            "in": "path",
+            "required": true,
+            "schema": {"type": "string"},
+            "description": "Issue key (works for issues and subtasks)"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Issue status",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "issueKey": {"type": "string"},
+                    "status": {
+                      "type": "object",
+                      "nullable": true,
+                      "properties": {
+                        "name": {"type": "string"},
+                        "id": {"type": "string"}
+                      }
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       }
@@ -383,6 +567,7 @@
     "/backlog/move": {
       "post": {
         "summary": "Move Issues to Backlog",
+        "description": "Move issues, epics, or subtasks from sprints to backlog. This removes them from their current sprint.",
         "requestBody": {
           "required": true,
           "content": {
@@ -393,7 +578,8 @@
                 "properties": {
                   "issueKeys": {
                     "type": "array",
-                    "items": {"type": "string"}
+                    "items": {"type": "string"},
+                    "description": "Array of issue keys to move to backlog (removes from sprint)"
                   }
                 }
               }
@@ -402,7 +588,17 @@
         },
         "responses": {
           "200": {
-            "description": "Issues moved to backlog"
+            "description": "Issues moved to backlog",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "ok": {"type": "boolean"}
+                  }
+                }
+              }
+            }
           }
         }
       }
@@ -490,7 +686,7 @@
       },
       "post": {
         "summary": "Move Issues to Sprint",
-        "description": "Move issues or epics to a sprint. Epics can be moved since they are issues in Jira.",
+        "description": "Move issues, epics, or subtasks from backlog to a sprint. Epics can be moved since they are issues in Jira. This endpoint moves issues from backlog to the specified sprint.",
         "parameters": [
           {
             "name": "sprintId",
@@ -510,7 +706,7 @@
                   "issueKeys": {
                     "type": "array",
                     "items": {"type": "string"},
-                    "description": "Array of issue keys (can include epics)"
+                    "description": "Array of issue keys to move from backlog to sprint (can include epics and subtasks)"
                   }
                 }
               }
@@ -810,7 +1006,7 @@
       },
       "patch": {
         "summary": "Add Issues to Epic",
-        "description": "Bulk add issues (tasks/stories) to an epic. Returns partial success status if some operations fail.",
+        "description": "Bulk add issues (tasks/stories/subtasks) from backlog to an epic. This links issues to the epic. Returns partial success status if some operations fail.",
         "parameters": [
           {
             "name": "epicKey",
@@ -830,7 +1026,7 @@
                   "issueKeys": {
                     "type": "array",
                     "items": {"type": "string"},
-                    "description": "Array of issue keys to add to the epic"
+                    "description": "Array of issue keys to add to the epic (can include tasks, stories, and subtasks from backlog)"
                   }
                 }
               }
@@ -1272,6 +1468,56 @@
           "state": {"type": "string", "enum": ["active", "closed", "future"]},
           "startDate": {"type": "string", "format": "date-time"},
           "endDate": {"type": "string", "format": "date-time"}
+        }
+      },
+      "JiraStatus": {
+        "type": "object",
+        "properties": {
+          "id": {"type": "string"},
+          "name": {"type": "string"},
+          "description": {"type": "string"},
+          "iconUrl": {"type": "string"},
+          "statusCategory": {
+            "type": "object",
+            "properties": {
+              "id": {"type": "integer"},
+              "key": {"type": "string"},
+              "colorName": {"type": "string"},
+              "name": {"type": "string"}
+            }
+          }
+        }
+      },
+      "ProjectStatuses": {
+        "type": "object",
+        "properties": {
+          "self": {"type": "string"},
+          "id": {"type": "string"},
+          "name": {"type": "string"},
+          "subtask": {"type": "boolean"},
+          "statuses": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "self": {"type": "string"},
+                "description": {"type": "string"},
+                "iconUrl": {"type": "string"},
+                "name": {"type": "string"},
+                "id": {"type": "string"},
+                "statusCategory": {
+                  "type": "object",
+                  "properties": {
+                    "self": {"type": "string"},
+                    "id": {"type": "integer"},
+                    "key": {"type": "string"},
+                    "colorName": {"type": "string"},
+                    "name": {"type": "string"}
+                  }
+                }
+              }
+            }
+          }
         }
       }
     }
