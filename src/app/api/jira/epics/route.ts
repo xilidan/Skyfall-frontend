@@ -1,4 +1,4 @@
-import {createEpic, getIssuesByEpic} from '@/server/jira'
+import {createEpic, getIssuesByEpic, listEpics} from '@/server/jira'
 import {NextRequest, NextResponse} from 'next/server'
 
 export async function POST(req: NextRequest) {
@@ -16,19 +16,32 @@ export async function POST(req: NextRequest) {
 
     const epic = await createEpic({summary, description, labels})
     return NextResponse.json(epic, {status: 201})
-  } catch (error: any) {
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : 'Failed to create epic'
     console.error(error)
-    return NextResponse.json({error: error.message ?? 'Failed to create epic'}, {status: 500})
+    return NextResponse.json({error: message}, {status: 500})
   }
 }
 
-// GET stories for an epic
+// GET - List all epics OR get issues for a specific epic
 export async function GET(req: NextRequest) {
   try {
-    const stories = await getIssuesByEpic()
-    return NextResponse.json({stories})
-  } catch (error: any) {
+    const {searchParams} = new URL(req.url)
+    const epicKey = searchParams.get('epicKey')
+
+    // If epicKey is provided, return issues for that epic
+    if (epicKey) {
+      const issues = await getIssuesByEpic(epicKey)
+      return NextResponse.json({issues})
+    }
+
+    // Otherwise, return all epics
+    const limit = parseInt(searchParams.get('limit') || '50', 10)
+    const epics = await listEpics(limit)
+    return NextResponse.json({epics})
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : 'Failed to get epics'
     console.error(error)
-    return NextResponse.json({error: error.message ?? 'Failed to get epic stories'}, {status: 500})
+    return NextResponse.json({error: message}, {status: 500})
   }
 }

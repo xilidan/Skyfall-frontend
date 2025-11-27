@@ -159,6 +159,63 @@ export async function createIssue(params: {
   })
 }
 
+// Batch issue creation
+export type BatchIssueResult = {
+  success: boolean
+  issue?: JiraIssue
+  error?: string
+  index: number
+}
+
+export async function createIssuesBatch(
+  items: Array<{
+    summary: string
+    description?: string
+    issueTypeName?: string
+    storyPoints?: number
+    assigneeAccountId?: string
+    assigneeEmail?: string
+    priority?: 'Highest' | 'High' | 'Medium' | 'Low' | 'Lowest'
+    labels?: string[]
+    epicLink?: string
+    parentKey?: string
+  }>,
+): Promise<BatchIssueResult[]> {
+  const results: BatchIssueResult[] = []
+
+  for (let i = 0; i < items.length; i++) {
+    const item = items[i]
+    try {
+      const issue = await createIssue({
+        summary: item.summary,
+        description: item.description,
+        issueTypeName: item.issueTypeName,
+        storyPoints: item.storyPoints,
+        assigneeAccountId: item.assigneeAccountId,
+        assigneeEmail: item.assigneeEmail,
+        priority: item.priority,
+        labels: item.labels,
+        epicLink: item.epicLink,
+        parentKey: item.parentKey,
+      })
+      results.push({
+        success: true,
+        issue,
+        index: i,
+      })
+    } catch (error: unknown) {
+      const message = error instanceof Error ? error.message : 'Failed to create issue'
+      results.push({
+        success: false,
+        error: message,
+        index: i,
+      })
+    }
+  }
+
+  return results
+}
+
 export async function listIssues(limit = 20, jql?: string): Promise<JiraIssue[]> {
   const defaultJql = `project = "${JIRA_PROJECT_KEY}" ORDER BY created DESC`
   const search = await jiraFetch<JiraSearchResponse>('/search/jql', {
@@ -198,7 +255,7 @@ export async function updateIssue(
     assigneeEmail?: string
     priority?: 'Highest' | 'High' | 'Medium' | 'Low' | 'Lowest'
     labels?: string[]
-    epicLink?: string
+    epicLink?: string | null
   },
 ): Promise<void> {
   const body: {fields: Record<string, unknown>} = {fields: {}}
@@ -229,7 +286,8 @@ export async function updateIssue(
     body.fields.labels = fields.labels
   }
   if (fields.epicLink !== undefined) {
-    body.fields.customfield_10014 = fields.epicLink
+    // Set to null to remove epic link, or to a string to set it
+    body.fields.customfield_10014 = fields.epicLink === null ? null : fields.epicLink
   }
 
   await jiraFetch<void>(`/issue/${encodeURIComponent(issueKey)}`, {
@@ -251,9 +309,29 @@ export async function createEpic(params: {
   description?: string
   labels?: string[]
 }): Promise<JiraIssue> {
-  return createIssue({
-    ...params,
-    issueTypeName: 'Epic',
+  const body: any = {
+    fields: {
+      project: {key: JIRA_PROJECT_KEY},
+      summary: params.summary,
+      issuetype: {name: 'Epic'},
+      // Note: Epic Name field (customfield_10011) is not set here as it may not be
+      // available on the create screen. Jira typically auto-populates it from summary.
+    },
+  }
+
+  // Convert description to Atlassian Document Format (ADF)
+  if (params.description) {
+    body.fields.description = textToADF(params.description)
+  }
+
+  // Labels
+  if (params.labels && params.labels.length > 0) {
+    body.fields.labels = params.labels
+  }
+
+  return jiraFetch<JiraIssue>('/issue', {
+    method: 'POST',
+    body: JSON.stringify(body),
   })
 }
 
@@ -287,6 +365,57 @@ export async function createSubtask(params: {
     ...params,
     issueTypeName: 'Subtask',
   })
+}
+
+// Batch subtask creation
+export type BatchSubtaskResult = {
+  success: boolean
+  subtask?: JiraIssue
+  error?: string
+  index: number
+}
+
+export async function createSubtasksBatch(
+  items: Array<{
+    summary: string
+    description?: string
+    parentKey: string
+    storyPoints?: number
+    assigneeAccountId?: string
+    priority?: 'Highest' | 'High' | 'Medium' | 'Low' | 'Lowest'
+    labels?: string[]
+  }>,
+): Promise<BatchSubtaskResult[]> {
+  const results: BatchSubtaskResult[] = []
+
+  for (let i = 0; i < items.length; i++) {
+    const item = items[i]
+    try {
+      const subtask = await createSubtask({
+        summary: item.summary,
+        description: item.description,
+        parentKey: item.parentKey,
+        storyPoints: item.storyPoints,
+        assigneeAccountId: item.assigneeAccountId,
+        priority: item.priority,
+        labels: item.labels,
+      })
+      results.push({
+        success: true,
+        subtask,
+        index: i,
+      })
+    } catch (error: unknown) {
+      const message = error instanceof Error ? error.message : 'Failed to create subtask'
+      results.push({
+        success: false,
+        error: message,
+        index: i,
+      })
+    }
+  }
+
+  return results
 }
 
 // Get issue transitions (available status changes)
@@ -361,8 +490,15 @@ export async function getBacklogIssues(limit = 50): Promise<JiraIssue[]> {
 
 // Get issues by epic
 export async function getIssuesByEpic(epicKey: string): Promise<JiraIssue[]> {
+  // JQL syntax: Epic Link field requires the epic key value
   const jql = `"Epic Link" = ${epicKey} ORDER BY priority DESC, created DESC`
   return listIssues(100, jql)
+}
+
+// List all epics
+export async function listEpics(limit = 50): Promise<JiraIssue[]> {
+  const jql = `project = "${JIRA_PROJECT_KEY}" AND issuetype = Epic ORDER BY created DESC`
+  return listIssues(limit, jql)
 }
 
 // Get subtasks of an issue

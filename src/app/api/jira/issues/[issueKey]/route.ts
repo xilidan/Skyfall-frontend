@@ -31,7 +31,7 @@ export async function PATCH(req: NextRequest, {params}: RouteContext) {
       assigneeEmail?: string
       priority?: 'Highest' | 'High' | 'Medium' | 'Low' | 'Lowest'
       labels?: string[]
-      epicLink?: string
+      epicLink?: string | null
     }
 
     const hasUpdates =

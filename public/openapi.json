@@ -176,7 +176,7 @@
                   "assigneeEmail": {"type": "string"},
                   "priority": {"type": "string"},
                   "labels": {"type": "array", "items": {"type": "string"}},
-                  "epicLink": {"type": "string"}
+                  "epicLink": {"type": "string", "nullable": true, "description": "Epic key to link to, or null to remove from epic"}
                 }
               }
             }
@@ -277,6 +277,70 @@
         "responses": {
           "200": {
             "description": "Issue transitioned"
+          }
+        }
+      }
+    },
+    "/issues/batch": {
+      "post": {
+        "summary": "Create Issues Batch",
+        "description": "Create multiple issues in a single request",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["issues"],
+                "properties": {
+                  "issues": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "required": ["summary"],
+                      "properties": {
+                        "summary": {"type": "string"},
+                        "description": {"type": "string"},
+                        "issueTypeName": {"type": "string"},
+                        "storyPoints": {"type": "number"},
+                        "assigneeAccountId": {"type": "string"},
+                        "assigneeEmail": {"type": "string"},
+                        "priority": {"type": "string", "enum": ["Highest", "High", "Medium", "Low", "Lowest"]},
+                        "labels": {"type": "array", "items": {"type": "string"}},
+                        "epicLink": {"type": "string"},
+                        "parentKey": {"type": "string"}
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Batch creation results",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "results": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "success": {"type": "boolean"},
+                          "issue": {"$ref": "#/components/schemas/JiraIssue"},
+                          "error": {"type": "string"},
+                          "index": {"type": "integer"}
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       }
@@ -393,8 +457,40 @@
       }
     },
     "/sprints/{sprintId}/issues": {
+      "get": {
+        "summary": "Get Sprint Issues",
+        "parameters": [
+          {
+            "name": "sprintId",
+            "in": "path",
+            "required": true,
+            "schema": {"type": "integer"}
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Sprint issues",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "issues": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/JiraIssue"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
       "post": {
         "summary": "Move Issues to Sprint",
+        "description": "Move issues or epics to a sprint. Epics can be moved since they are issues in Jira.",
         "parameters": [
           {
             "name": "sprintId",
@@ -413,7 +509,8 @@
                 "properties": {
                   "issueKeys": {
                     "type": "array",
-                    "items": {"type": "string"}
+                    "items": {"type": "string"},
+                    "description": "Array of issue keys (can include epics)"
                   }
                 }
               }
@@ -422,7 +519,717 @@
         },
         "responses": {
           "200": {
-            "description": "Issues moved to sprint"
+            "description": "Issues moved to sprint",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "ok": {"type": "boolean"},
+                    "message": {"type": "string"}
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "Remove Issues from Sprint",
+        "description": "Remove issues from a sprint and move them to backlog",
+        "parameters": [
+          {
+            "name": "sprintId",
+            "in": "path",
+            "required": true,
+            "schema": {"type": "integer"}
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["issueKeys"],
+                "properties": {
+                  "issueKeys": {
+                    "type": "array",
+                    "items": {"type": "string"},
+                    "description": "Array of issue keys to remove from sprint"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Issues removed from sprint and moved to backlog",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "ok": {"type": "boolean"},
+                    "message": {"type": "string"}
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/sprints/{sprintId}/start": {
+      "post": {
+        "summary": "Start Sprint",
+        "parameters": [
+          {
+            "name": "sprintId",
+            "in": "path",
+            "required": true,
+            "schema": {"type": "integer"}
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "startDate": {"type": "string", "format": "date-time"},
+                  "endDate": {"type": "string", "format": "date-time"}
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Sprint started",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/JiraSprint"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/sprints/{sprintId}/close": {
+      "post": {
+        "summary": "Close Sprint",
+        "parameters": [
+          {
+            "name": "sprintId",
+            "in": "path",
+            "required": true,
+            "schema": {"type": "integer"}
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Sprint closed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/JiraSprint"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/sprints/{sprintId}/report": {
+      "get": {
+        "summary": "Get Sprint Report",
+        "parameters": [
+          {
+            "name": "sprintId",
+            "in": "path",
+            "required": true,
+            "schema": {"type": "integer"}
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Sprint report with statistics",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "sprint": {"$ref": "#/components/schemas/JiraSprint"},
+                    "totalIssues": {"type": "integer"},
+                    "completedIssues": {"type": "integer"},
+                    "totalStoryPoints": {"type": "number"},
+                    "completedStoryPoints": {"type": "number"},
+                    "issues": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/JiraIssue"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/epics": {
+      "get": {
+        "summary": "List Epics or Get Epic Issues",
+        "description": "List all epics, or get issues for a specific epic if epicKey is provided",
+        "parameters": [
+          {
+            "name": "epicKey",
+            "in": "query",
+            "required": false,
+            "schema": {"type": "string"},
+            "description": "Epic key to get issues for"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {"type": "integer", "default": 50},
+            "description": "Limit for listing epics (ignored if epicKey is provided)"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of epics or issues for epic",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "type": "object",
+                      "properties": {
+                        "epics": {
+                          "type": "array",
+                          "items": {
+                            "$ref": "#/components/schemas/JiraIssue"
+                          }
+                        }
+                      }
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "issues": {
+                          "type": "array",
+                          "items": {
+                            "$ref": "#/components/schemas/JiraIssue"
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Create Epic",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["summary"],
+                "properties": {
+                  "summary": {"type": "string"},
+                  "description": {"type": "string"},
+                  "labels": {"type": "array", "items": {"type": "string"}}
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Epic created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/JiraIssue"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/epics/{epicKey}": {
+      "get": {
+        "summary": "Get Epic Details",
+        "description": "Get epic details with all its linked issues",
+        "parameters": [
+          {
+            "name": "epicKey",
+            "in": "path",
+            "required": true,
+            "schema": {"type": "string"}
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Epic details with issues",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {"$ref": "#/components/schemas/JiraIssue"},
+                    {
+                      "type": "object",
+                      "properties": {
+                        "issues": {
+                          "type": "array",
+                          "items": {
+                            "$ref": "#/components/schemas/JiraIssue"
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "summary": "Add Issues to Epic",
+        "description": "Bulk add issues (tasks/stories) to an epic. Returns partial success status if some operations fail.",
+        "parameters": [
+          {
+            "name": "epicKey",
+            "in": "path",
+            "required": true,
+            "schema": {"type": "string"}
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["issueKeys"],
+                "properties": {
+                  "issueKeys": {
+                    "type": "array",
+                    "items": {"type": "string"},
+                    "description": "Array of issue keys to add to the epic"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "All issues added successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "ok": {"type": "boolean"},
+                    "message": {"type": "string"}
+                  }
+                }
+              }
+            }
+          },
+          "207": {
+            "description": "Partial success - some issues failed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "ok": {"type": "boolean"},
+                    "message": {"type": "string"},
+                    "successful": {"type": "integer"},
+                    "failed": {"type": "integer"},
+                    "errors": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "issueKey": {"type": "string"},
+                          "error": {"type": "string"}
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "Remove Issues from Epic",
+        "description": "Bulk remove issues from an epic by unlinking them. Returns partial success status if some operations fail.",
+        "parameters": [
+          {
+            "name": "epicKey",
+            "in": "path",
+            "required": true,
+            "schema": {"type": "string"}
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["issueKeys"],
+                "properties": {
+                  "issueKeys": {
+                    "type": "array",
+                    "items": {"type": "string"},
+                    "description": "Array of issue keys to remove from the epic"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "All issues removed successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "ok": {"type": "boolean"},
+                    "message": {"type": "string"}
+                  }
+                }
+              }
+            }
+          },
+          "207": {
+            "description": "Partial success - some issues failed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "ok": {"type": "boolean"},
+                    "message": {"type": "string"},
+                    "successful": {"type": "integer"},
+                    "failed": {"type": "integer"},
+                    "errors": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "issueKey": {"type": "string"},
+                          "error": {"type": "string"}
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/stories": {
+      "get": {
+        "summary": "Get Stories by Epic",
+        "parameters": [
+          {
+            "name": "epicKey",
+            "in": "query",
+            "required": true,
+            "schema": {"type": "string"},
+            "description": "Epic key to get stories for"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of stories",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "stories": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/JiraIssue"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Create Story",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["summary"],
+                "properties": {
+                  "summary": {"type": "string"},
+                  "description": {"type": "string"},
+                  "storyPoints": {"type": "number"},
+                  "epicLink": {"type": "string", "description": "Epic key to link story to"},
+                  "assigneeAccountId": {"type": "string"},
+                  "priority": {"type": "string", "enum": ["Highest", "High", "Medium", "Low", "Lowest"]},
+                  "labels": {"type": "array", "items": {"type": "string"}}
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Story created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/JiraIssue"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/subtasks": {
+      "get": {
+        "summary": "Get Subtasks by Parent",
+        "parameters": [
+          {
+            "name": "parentKey",
+            "in": "query",
+            "required": true,
+            "schema": {"type": "string"},
+            "description": "Parent issue key to get subtasks for"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of subtasks",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "subtasks": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/JiraIssue"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Create Subtask",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["summary", "parentKey"],
+                "properties": {
+                  "summary": {"type": "string"},
+                  "description": {"type": "string"},
+                  "parentKey": {"type": "string", "description": "Parent issue key"},
+                  "storyPoints": {"type": "number"},
+                  "assigneeAccountId": {"type": "string"},
+                  "priority": {"type": "string", "enum": ["Highest", "High", "Medium", "Low", "Lowest"]},
+                  "labels": {"type": "array", "items": {"type": "string"}}
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Subtask created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/JiraIssue"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/subtasks/batch": {
+      "post": {
+        "summary": "Create Subtasks Batch",
+        "description": "Create multiple subtasks in a single request",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["subtasks"],
+                "properties": {
+                  "subtasks": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "required": ["summary", "parentKey"],
+                      "properties": {
+                        "summary": {"type": "string"},
+                        "description": {"type": "string"},
+                        "parentKey": {"type": "string", "description": "Parent issue key"},
+                        "storyPoints": {"type": "number"},
+                        "assigneeAccountId": {"type": "string"},
+                        "priority": {"type": "string", "enum": ["Highest", "High", "Medium", "Low", "Lowest"]},
+                        "labels": {"type": "array", "items": {"type": "string"}}
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Batch creation results",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "results": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "success": {"type": "boolean"},
+                          "subtask": {"$ref": "#/components/schemas/JiraIssue"},
+                          "error": {"type": "string"},
+                          "index": {"type": "integer"}
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/issues/{issueKey}/comments": {
+      "get": {
+        "summary": "Get Issue Comments",
+        "parameters": [
+          {
+            "name": "issueKey",
+            "in": "path",
+            "required": true,
+            "schema": {"type": "string"}
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of comments",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "comments": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {"type": "string"},
+                          "body": {"type": "string"},
+                          "author": {"$ref": "#/components/schemas/JiraUser"},
+                          "created": {"type": "string", "format": "date-time"}
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Add Comment to Issue",
+        "parameters": [
+          {
+            "name": "issueKey",
+            "in": "path",
+            "required": true,
+            "schema": {"type": "string"}
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["comment"],
+                "properties": {
+                  "comment": {"type": "string"}
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Comment added",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {"type": "string"},
+                    "body": {"type": "string"},
+                    "author": {"$ref": "#/components/schemas/JiraUser"},
+                    "created": {"type": "string", "format": "date-time"}
+                  }
+                }
+              }
+            }
           }
         }
       }
