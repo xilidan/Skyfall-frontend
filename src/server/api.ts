@@ -91,23 +91,27 @@ export function getApi() {
       return appApiFetchClient('/organization', {
         method: 'GET',
         responseBodySchema: z.object({
-          name: z.string(),
-          positions: z.array(
-            z.object({
-              id: z.number(),
-              name: z.string(),
-              is_reviewer: z.boolean(),
-            }),
-          ),
-          users: z.array(
-            z.object({
-              name: z.string(),
-              surname: z.string().optional(),
-              email: z.string(),
-              position_id: z.number().optional(),
-              job: z.string().optional(),
-            }),
-          ),
+          organization: z.object({
+            id: z.string(),
+            name: z.string(),
+            positions: z.array(
+              z.object({
+                id: z.string(),
+                name: z.string(),
+                isReviewer: z.boolean(),
+              }),
+            ),
+            users: z.array(
+              z.object({
+                id: z.string(),
+                name: z.string(),
+                surname: z.string(),
+                email: z.string(),
+                positionId: z.string().optional(),
+                job: z.string().optional(),
+              }),
+            ),
+          }),
         }),
       })
     },
@@ -121,10 +125,10 @@ export function getApi() {
       }[]
       users: {
         name: string
-        surname?: string
+        surname: string
         email: string
-        position_id?: number
-        job_domain?: string
+        position_id: number
+        job_domain: string
       }[]
     }) => {
       return appApiFetchClient('/organization', {

@@ -22,9 +22,9 @@ const positionSchema = z.object({
 
 const userSchema = z.object({
   name: z.string().min(1, 'Name is required'),
-  surname: z.string().optional(),
+  surname: z.string().min(1, 'Surname is required'),
   email: z.string().email('Invalid email'),
-  position_id: z.number().optional(),
+  position_id: z.string().optional(),
   job: z.string().optional(),
 })
 
@@ -59,14 +59,27 @@ export function OrganizationSettings() {
     formState: {errors},
   } = form
 
-  // Load organization data when it's fetched
   useEffect(() => {
     if (organizationQuery.data) {
-      const orgData = organizationQuery.data
+      const orgData = organizationQuery.data.organization
+      console.log(orgData, 22)
+
       reset({
-        name: orgData.name || '',
-        positions: orgData.positions || [],
-        users: orgData.users || [],
+        name: orgData.name,
+        positions: orgData.positions.map((position) => ({
+          id: Number(position.id),
+          name: position.name,
+          is_reviewer: position.isReviewer,
+        })),
+        users: orgData.users
+          .filter((user) => user.name && user.surname && user.email && user.positionId && user.job)
+          .map((user) => ({
+            name: user.name,
+            surname: user.surname,
+            email: user.email,
+            position_id: user.positionId ? String(user.positionId) : undefined,
+            job: user.job,
+          })),
         files: [],
       })
     }
@@ -93,6 +106,14 @@ export function OrganizationSettings() {
   const positions = useWatch({control, name: 'positions'})
   const hasExistingData = !!organizationQuery.data
 
+  const getNextPositionId = () => {
+    if (!positions || positions.length === 0) return 1
+    const existingIds = positions.map((p) => p.id).filter((id) => typeof id === 'number')
+    if (existingIds.length === 0) return 1
+    const maxId = Math.max(...existingIds)
+    return maxId + 1
+  }
+
   const createMutation = useMutation({
     mutationFn: (data: OrganizationFormValues) =>
       getApi().createOrganization({
@@ -102,8 +123,8 @@ export function OrganizationSettings() {
           name: user.name,
           surname: user.surname,
           email: user.email,
-          position_id: user.position_id,
-          job: user.job,
+          position_id: user.position_id ? Number(user.position_id) : 0,
+          job_domain: user.job ?? '',
         })),
       }),
     onSuccess: () => {
@@ -125,8 +146,8 @@ export function OrganizationSettings() {
           name: user.name,
           surname: user.surname,
           email: user.email,
-          position_id: user.position_id,
-          job: user.job,
+          position_id: user.position_id ? Number(user.position_id) : undefined,
+          job_domain: user.job ?? '',
         })),
       }),
     onSuccess: () => {
@@ -294,7 +315,7 @@ export function OrganizationSettings() {
               <Button
                 variant="secondary"
                 size="sm"
-                onPress={() => appendPosition({id: Date.now(), name: '', is_reviewer: false})}
+                onPress={() => appendPosition({id: getNextPositionId(), name: '', is_reviewer: false})}
                 className="bg-slate-800 text-slate-300 hover:bg-slate-700 hover:text-white border border-slate-700"
               >
                 <PlusIcon className="mr-2 h-3 w-3" />
@@ -360,7 +381,7 @@ export function OrganizationSettings() {
                     name: '',
                     surname: '',
                     email: '',
-                    position_id: positions[0]?.id,
+                    position_id: positions[0]?.id ? String(positions[0].id) : '',
                     job: '',
                   })
                 }
@@ -428,16 +449,15 @@ export function OrganizationSettings() {
                       name={`users.${index}.position_id`}
                       render={({field}) => (
                         <Select
-                          items={positions.map((p) => ({id: p.id, name: p.name}))}
-                          key={field.value ? String(field.value) : null}
-                          onChange={(key) => {
-                            const numKey = key ? Number(key) : undefined
-                            field.onChange(numKey)
+                          items={positions.map((p) => ({id: String(p.id), name: p.name}))}
+                          selectedKey={field.value || null}
+                          onSelectionChange={(key) => {
+                            field.onChange(key ? String(key) : undefined)
                           }}
                           placeholder="Select Position"
                           errorMessage={errors.users?.[index]?.position_id?.message}
                         >
-                          {(item) => <SelectItem id={String(item.id)}>{item.name}</SelectItem>}
+                          {(item) => <SelectItem id={item.id}>{item.name}</SelectItem>}
                         </Select>
                       )}
                     />
@@ -481,7 +501,7 @@ export function OrganizationSettings() {
                         name: '',
                         surname: '',
                         email: '',
-                        position_id: positions[0]?.id,
+                        position_id: positions[0]?.id ? String(positions[0].id) : '',
                         job: '',
                       })
                     }
