@@ -11,8 +11,8 @@ if (!JIRA_BASE_URL || !JIRA_EMAIL || !JIRA_API_TOKEN || !JIRA_PROJECT_KEY) {
 
 const AUTH_HEADER = 'Basic ' + Buffer.from(`${JIRA_EMAIL}:${JIRA_API_TOKEN}`).toString('base64')
 
-async function jiraFetch<T = any>(path: string, init: RequestInit = {}): Promise<T> {
-  const res = await fetch(`${JIRA_BASE_URL}/rest/api/3${path}`, {
+async function jiraFetch<T = any>(path: string, init: RequestInit = {}, api = 'api/3'): Promise<T> {
+  const res = await fetch(`${JIRA_BASE_URL}/rest/${api}${path}`, {
     ...init,
     headers: {
       Accept: 'application/json',
@@ -390,7 +390,7 @@ export type JiraBoard = {
 
 // Get project's board (needed for sprint operations)
 async function getProjectBoard(): Promise<JiraBoard> {
-  const response = await jiraFetch<{values: JiraBoard[]}>(`/board?projectKeyOrId=${JIRA_PROJECT_KEY}`)
+  const response = await jiraFetch<{values: JiraBoard[]}>(`/board?projectKeyOrId=${JIRA_PROJECT_KEY}`, {}, 'agile/1.0')
   if (!response.values || response.values.length === 0) {
     throw new Error(`No board found for project ${JIRA_PROJECT_KEY}`)
   }
@@ -400,7 +400,7 @@ async function getProjectBoard(): Promise<JiraBoard> {
 // List all sprints for the project
 export async function listSprints(): Promise<JiraSprint[]> {
   const board = await getProjectBoard()
-  const response = await jiraFetch<{values: JiraSprint[]}>(`/board/${board.id}/sprint`)
+  const response = await jiraFetch<{values: JiraSprint[]}>(`/board/${board.id}/sprint`, {}, 'agile/1.0')
   return response.values || []
 }
 
@@ -420,10 +420,14 @@ export async function createSprint(params: {name: string; startDate?: string; en
     body.endDate = params.endDate
   }
 
-  return jiraFetch<JiraSprint>('/sprint', {
-    method: 'POST',
-    body: JSON.stringify(body),
-  })
+  return jiraFetch<JiraSprint>(
+    '/sprint',
+    {
+      method: 'POST',
+      body: JSON.stringify(body),
+    },
+    'agile/1.0',
+  )
 }
 
 // Start a sprint
@@ -443,30 +447,42 @@ export async function startSprint(params: {
     body.endDate = params.endDate
   }
 
-  return jiraFetch<JiraSprint>(`/sprint/${params.sprintId}`, {
-    method: 'POST',
-    body: JSON.stringify(body),
-  })
+  return jiraFetch<JiraSprint>(
+    `/sprint/${params.sprintId}`,
+    {
+      method: 'POST',
+      body: JSON.stringify(body),
+    },
+    'agile/1.0',
+  )
 }
 
 // Move issues to sprint
 export async function moveIssuesToSprint(params: {sprintId: number; issueKeys: string[]}): Promise<void> {
-  await jiraFetch<void>(`/sprint/${params.sprintId}/issue`, {
-    method: 'POST',
-    body: JSON.stringify({
-      issues: params.issueKeys,
-    }),
-  })
+  await jiraFetch<void>(
+    `/sprint/${params.sprintId}/issue`,
+    {
+      method: 'POST',
+      body: JSON.stringify({
+        issues: params.issueKeys,
+      }),
+    },
+    'agile/1.0',
+  )
 }
 
 // Move issues to backlog
 export async function moveIssuesToBacklog(issueKeys: string[]): Promise<void> {
-  await jiraFetch<void>('/backlog/issue', {
-    method: 'POST',
-    body: JSON.stringify({
-      issues: issueKeys,
-    }),
-  })
+  await jiraFetch<void>(
+    '/backlog/issue',
+    {
+      method: 'POST',
+      body: JSON.stringify({
+        issues: issueKeys,
+      }),
+    },
+    'agile/1.0',
+  )
 }
 
 // Get active sprint
@@ -477,12 +493,16 @@ export async function getActiveSprint(): Promise<JiraSprint | null> {
 
 // Close sprint
 export async function closeSprint(sprintId: number): Promise<JiraSprint> {
-  return jiraFetch<JiraSprint>(`/sprint/${sprintId}`, {
-    method: 'POST',
-    body: JSON.stringify({
-      state: 'closed',
-    }),
-  })
+  return jiraFetch<JiraSprint>(
+    `/sprint/${sprintId}`,
+    {
+      method: 'POST',
+      body: JSON.stringify({
+        state: 'closed',
+      }),
+    },
+    'agile/1.0',
+  )
 }
 
 // Get sprint issues

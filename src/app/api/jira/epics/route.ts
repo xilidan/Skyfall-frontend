@@ -25,14 +25,7 @@ export async function POST(req: NextRequest) {
 // GET stories for an epic
 export async function GET(req: NextRequest) {
   try {
-    const {searchParams} = new URL(req.url)
-    const epicKey = searchParams.get('epicKey')
-
-    if (!epicKey) {
-      return NextResponse.json({error: 'epicKey query parameter is required'}, {status: 400})
-    }
-
-    const stories = await getIssuesByEpic(epicKey)
+    const stories = await getIssuesByEpic()
     return NextResponse.json({stories})
   } catch (error: any) {
     console.error(error)

@@ -9,11 +9,11 @@ type RouteContext = {
 export async function POST(_req: NextRequest, {params}: RouteContext) {
   try {
     const {sprintId} = await params
-    const sprint = await closeSprint(parseInt(sprintId, 10))
-    return NextResponse.json(sprint)
-  } catch (error: any) {
+    await closeSprint(parseInt(sprintId, 10))
+    return NextResponse.json({ok: true})
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : 'Failed to close sprint'
     console.error(error)
-    return NextResponse.json({error: error.message ?? 'Failed to close sprint'}, {status: 500})
+    return NextResponse.json({error: message}, {status: 500})
   }
 }
-

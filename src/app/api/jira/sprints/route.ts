@@ -1,9 +1,10 @@
-import {createSprint, listSprints} from '@/server/jira'
+import {closeSprint, createSprint, listSprints, startSprint} from '@/server/jira'
 import {NextRequest, NextResponse} from 'next/server'
 
 export async function GET() {
   try {
     const sprints = await listSprints()
+    console.log(sprints)
     return NextResponse.json({sprints})
   } catch (error: any) {
     console.error(error)
@@ -21,6 +22,14 @@ export async function POST(req: NextRequest) {
     }
 
     const sprint = await createSprint({name, startDate, endDate})
+    if (startDate && new Date(startDate).getTime() <= Date.now()) {
+      await startSprint({sprintId: sprint.id, startDate, endDate})
+    }
+
+    if (endDate && new Date(endDate).getTime() <= Date.now()) {
+      await closeSprint(sprint.id)
+    }
+
     return NextResponse.json(sprint, {status: 201})
   } catch (error: any) {
     console.error(error)
