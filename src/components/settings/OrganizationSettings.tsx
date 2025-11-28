@@ -392,13 +392,13 @@ export function OrganizationSettings() {
               </Button>
             </div>
 
-            <div className="space-y-4">
+            <div className="space-y-3">
               {userFields.map((field, index) => (
                 <div
                   key={field.id}
-                  className="grid grid-cols-1 md:grid-cols-12 gap-4 p-4 rounded-xl bg-slate-900/40 border border-slate-800/60 hover:border-slate-700 transition-colors relative group items-start"
+                  className="grid grid-cols-1 md:grid-cols-2 gap-3 p-4 rounded-xl bg-slate-900/40 border border-slate-800/60 hover:border-slate-700 transition-all relative group items-start"
                 >
-                  <div className="md:col-span-2">
+                  <div>
                     <Controller
                       control={control}
                       name={`users.${index}.name`}
@@ -413,7 +413,7 @@ export function OrganizationSettings() {
                     />
                   </div>
 
-                  <div className="md:col-span-2">
+                  <div>
                     <Controller
                       control={control}
                       name={`users.${index}.surname`}
@@ -428,7 +428,7 @@ export function OrganizationSettings() {
                     />
                   </div>
 
-                  <div className="md:col-span-3">
+                  <div>
                     <Controller
                       control={control}
                       name={`users.${index}.email`}
@@ -443,7 +443,7 @@ export function OrganizationSettings() {
                     />
                   </div>
 
-                  <div className="md:col-span-2">
+                  <div>
                     <Controller
                       control={control}
                       name={`users.${index}.position_id`}
@@ -454,7 +454,7 @@ export function OrganizationSettings() {
                           onSelectionChange={(key) => {
                             field.onChange(key ? String(key) : undefined)
                           }}
-                          placeholder="Select Position"
+                          placeholder="Position"
                           errorMessage={errors.users?.[index]?.position_id?.message}
                         >
                           {(item) => <SelectItem id={item.id}>{item.name}</SelectItem>}
@@ -463,7 +463,7 @@ export function OrganizationSettings() {
                     />
                   </div>
 
-                  <div className="md:col-span-3">
+                  <div className="relative">
                     <Controller
                       control={control}
                       name={`users.${index}.job`}
@@ -471,21 +471,20 @@ export function OrganizationSettings() {
                         <TextField
                           {...field}
                           label="Job"
-                          placeholder="Job"
+                          placeholder="Job Title"
                           errorMessage={errors.users?.[index]?.job?.message}
                         />
                       )}
                     />
+                    <Button
+                      variant="negative"
+                      isIconOnly
+                      className="absolute -top-2 -right-2 opacity-0 group-hover:opacity-100 transition-opacity shadow-lg scale-75 hover:scale-100 z-10"
+                      onPress={() => removeUser(index)}
+                    >
+                      <TrashIcon className="h-4 w-4" />
+                    </Button>
                   </div>
-
-                  <Button
-                    variant="negative"
-                    isIconOnly
-                    className="absolute -top-2 -right-2 opacity-0 group-hover:opacity-100 transition-opacity shadow-lg scale-75 hover:scale-100"
-                    onPress={() => removeUser(index)}
-                  >
-                    <TrashIcon className="h-4 w-4" />
-                  </Button>
                 </div>
               ))}
 
