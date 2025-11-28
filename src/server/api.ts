@@ -32,16 +32,29 @@ export function getApi() {
       })
     },
 
-    chatStream: async function* (prompt: string) {
+    chatStream: async function* (prompt: string, sessionId: string, files?: File[]) {
       const accessToken = getCookie('accessToken')
-      const response = await fetch('https://api.azed.kz/api/v1/chat/generate', {
+
+      const headers: HeadersInit = {
+        ...(accessToken ? {Authorization: `Bearer ${accessToken}`} : {}),
+      }
+
+      const formData = new FormData()
+      formData.append('message', prompt)
+      formData.append('session_id', sessionId)
+      if (files && files.length > 0) {
+        formData.append(`file`, files[0])
+      }
+
+      const response = await fetch('https://scrum.azed.kz/chat', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          ...(accessToken ? {Authorization: `Bearer ${accessToken}`} : {}),
-        },
-        body: JSON.stringify({prompt}),
+        headers,
+        body: formData,
       })
+
+      if (!response.ok) {
+        throw new Error(`Chat request failed: ${response.status} ${response.statusText}`)
+      }
 
       if (!response.body) throw new Error('No response body')
 
@@ -49,25 +62,66 @@ export function getApi() {
       const decoder = new TextDecoder()
       let buffer = ''
 
-      while (true) {
-        const {done, value} = await reader.read()
-        if (done) break
+      try {
+        while (true) {
+          const {done, value} = await reader.read()
+          if (done) break
 
-        buffer += decoder.decode(value, {stream: true})
-        const lines = buffer.split('\n')
-        buffer = lines.pop() || ''
+          buffer += decoder.decode(value, {stream: true})
+          const lines = buffer.split('\n')
+          buffer = lines.pop() || ''
 
-        for (const line of lines) {
-          if (!line.trim()) continue
-          try {
-            const json = JSON.parse(line)
-            if (json.content) {
-              yield json.content
+          for (const line of lines) {
+            if (!line.trim()) continue
+
+            // Handle SSE format (data: {...})
+            let jsonLine = line.trim()
+            if (jsonLine.startsWith('data: ')) {
+              jsonLine = jsonLine.slice(6)
             }
-          } catch (e) {
-            console.error('Error parsing stream chunk', e)
+
+            // Skip SSE metadata lines
+            if (jsonLine === '[DONE]' || jsonLine.startsWith('event:') || jsonLine.startsWith('id:')) {
+              continue
+            }
+
+            try {
+              const json = JSON.parse(jsonLine)
+
+              // Handle different JSON structures
+              // Try common field names for the content
+              let content = ''
+              if (typeof json === 'string') {
+                content = json
+              } else if (json.content) {
+                content = json.content
+              } else if (json.data) {
+                content = json.data
+              } else if (json.text) {
+                content = json.text
+              } else if (json.message) {
+                content = json.message
+              } else if (json.delta?.content) {
+                content = json.delta.content
+              } else if (json.choices?.[0]?.delta?.content) {
+                content = json.choices[0].delta.content
+              } else if (json.choices?.[0]?.text) {
+                content = json.choices[0].text
+              }
+
+              if (content) {
+                yield content
+              }
+            } catch {
+              // If it's not JSON, try to yield it as plain text (might be just the content)
+              if (jsonLine && jsonLine.length > 0 && !jsonLine.startsWith(':')) {
+                yield jsonLine
+              }
+            }
           }
         }
+      } finally {
+        reader.releaseLock()
       }
     },
 
