@@ -62,7 +62,6 @@ export function OrganizationSettings() {
   useEffect(() => {
     if (organizationQuery.data) {
       const orgData = organizationQuery.data.organization
-      console.log(orgData, 22)
 
       reset({
         name: orgData.name,
@@ -163,7 +162,6 @@ export function OrganizationSettings() {
   const onSubmit = async (data: OrganizationFormValues) => {
     console.log('Form submitted with data:', data)
 
-    // Prepare the payload - exclude files array
     const payload = {
       name: data.name,
       positions: data.positions,
@@ -209,33 +207,20 @@ export function OrganizationSettings() {
         console.log('Form validation errors:', errors)
         toast.error('Please fix form errors before submitting')
       })}
-      className="flex flex-col h-full max-w-4xl mx-auto"
+      className="flex flex-col h-full w-full"
     >
-      <div className="flex items-center justify-between mb-8 pb-6 border-b border-slate-800/60">
-        <div>
-          <h2 className="text-2xl font-bold text-transparent bg-clip-text bg-linear-to-r from-indigo-400 to-cyan-400">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6 pb-6 border-b border-slate-800/60">
+        <div className="flex-1">
+          <h2 className="text-2xl md:text-3xl font-bold text-transparent bg-clip-text bg-linear-to-r from-indigo-400 to-cyan-400">
             Organization Settings
           </h2>
-          <p className="text-sm text-slate-400 mt-1">Manage your company profile, team structure, and personnel.</p>
+          <p className="text-sm text-slate-400 mt-1.5">Manage your company profile, team structure, and personnel.</p>
         </div>
-        <div className="flex gap-2">
-          <Button
-            type="button"
-            variant="secondary"
-            size="sm"
-            onPress={() => {
-              console.log('Form values:', form.getValues())
-              console.log('Form errors:', form.formState.errors)
-              console.log('Is form valid:', form.formState.isValid)
-            }}
-            className="bg-slate-700 hover:bg-slate-600 text-white"
-          >
-            Debug Form
-          </Button>
+        <div className="flex gap-2 shrink-0">
           <Button
             type="submit"
             isDisabled={isSubmitting}
-            className="bg-indigo-600 hover:bg-indigo-500 text-white shadow-lg shadow-indigo-900/20"
+            className="bg-linear-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white shadow-lg shadow-indigo-900/30 px-6 py-2.5"
           >
             <FloppyDiskIcon className="mr-2 h-4 w-4" />
             {hasExistingData ? 'Update Changes' : 'Create Organization'}
@@ -243,27 +228,27 @@ export function OrganizationSettings() {
         </div>
       </div>
 
-      <Tabs className="flex-1 flex flex-col">
-        <TabList aria-label="Settings sections" className="mb-8 border-b border-slate-800/60 w-full">
+      <Tabs className="flex-1 flex flex-col min-h-0">
+        <TabList aria-label="Settings sections" className="mb-6 border-b border-slate-800/60 w-full flex gap-1">
           <Tab
             id="general"
-            className="px-4 py-3 text-sm font-medium text-slate-400 hover:text-slate-200 aria-selected:text-indigo-400 aria-selected:border-b-2 aria-selected:border-indigo-400 transition-all outline-none cursor-pointer"
+            className="px-5 py-3 text-sm font-medium text-slate-400 hover:text-slate-200 aria-selected:text-indigo-400 aria-selected:border-b-2 aria-selected:border-indigo-400 transition-all outline-none cursor-pointer rounded-t-lg hover:bg-slate-900/30"
           >
             General Information
           </Tab>
           <Tab
             id="team"
-            className="px-4 py-3 text-sm font-medium text-slate-400 hover:text-slate-200 aria-selected:text-indigo-400 aria-selected:border-b-2 aria-selected:border-indigo-400 transition-all outline-none cursor-pointer"
+            className="px-5 py-3 text-sm font-medium text-slate-400 hover:text-slate-200 aria-selected:text-indigo-400 aria-selected:border-b-2 aria-selected:border-indigo-400 transition-all outline-none cursor-pointer rounded-t-lg hover:bg-slate-900/30"
           >
             Team & Roles
           </Tab>
         </TabList>
 
-        <TabPanel id="general" className="space-y-8 animate-fade-in">
-          <div className="grid gap-8 md:grid-cols-2">
+        <TabPanel id="general" className="space-y-6 animate-fade-in flex-1 overflow-y-auto">
+          <div className="grid gap-6 md:grid-cols-2">
             <div className="space-y-6">
-              <div className="space-y-4">
-                <h3 className="text-lg font-medium text-slate-200">Company Details</h3>
+              <div className="space-y-3">
+                <h3 className="text-base font-semibold text-slate-200">Company Details</h3>
                 <Controller
                   control={control}
                   name="name"
@@ -273,16 +258,16 @@ export function OrganizationSettings() {
                       label="Company Name"
                       placeholder="e.g. Acme Corp"
                       errorMessage={errors.name?.message}
-                      className="w-full text-white! placeholder:text-white"
+                      className="w-full"
                     />
                   )}
                 />
               </div>
 
-              <div className="space-y-4">
-                <h3 className="text-lg font-medium text-slate-200">Brand Assets</h3>
-                <div className="p-4 rounded-xl bg-slate-900/30 border border-slate-800/50">
-                  <span className="text-sm font-medium text-slate-400 mb-2 block">Company Logo / Files</span>
+              <div className="space-y-3">
+                <h3 className="text-base font-semibold text-slate-200">Brand Assets</h3>
+                <div className="p-5 rounded-xl bg-slate-900/40 border border-slate-800/60">
+                  <span className="text-sm font-medium text-slate-300 mb-3 block">Company Logo / Files</span>
                   <Controller
                     control={control}
                     name="files"
@@ -294,8 +279,11 @@ export function OrganizationSettings() {
               </div>
             </div>
 
-            <div className="hidden md:block p-6 rounded-2xl bg-linear-to-br from-slate-900/50 to-slate-800/20 border border-slate-800/50">
-              <h4 className="text-sm font-semibold text-indigo-400 mb-2">Pro Tip</h4>
+            <div className="hidden md:block p-6 rounded-xl bg-linear-to-br from-slate-900/60 to-slate-800/30 border border-slate-800/60 h-fit">
+              <h4 className="text-sm font-semibold text-indigo-400 mb-3 flex items-center gap-2">
+                <span className="w-1.5 h-1.5 rounded-full bg-indigo-400"></span>
+                Pro Tip
+              </h4>
               <p className="text-sm text-slate-400 leading-relaxed">
                 Keeping your organization details up to date helps us personalize your experience and ensures your team
                 has access to the right resources.
@@ -304,30 +292,29 @@ export function OrganizationSettings() {
           </div>
         </TabPanel>
 
-        <TabPanel id="team" className="space-y-10 animate-fade-in">
-          {/* Positions Section */}
-          <div className="space-y-6">
-            <div className="flex items-center justify-between">
-              <div>
-                <h3 className="text-lg font-medium text-slate-200">Positions / Grades</h3>
-                <p className="text-sm text-slate-500">Define the hierarchy and roles within your organization.</p>
+        <TabPanel id="team" className="space-y-8 animate-fade-in flex-1 overflow-y-auto">
+          <div className="space-y-5">
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+              <div className="flex-1">
+                <h3 className="text-base font-semibold text-slate-200">Positions / Grades</h3>
+                <p className="text-sm text-slate-400 mt-1">Define the hierarchy and roles within your organization.</p>
               </div>
               <Button
                 variant="secondary"
                 size="sm"
                 onPress={() => appendPosition({id: getNextPositionId(), name: '', is_reviewer: false})}
-                className="bg-slate-800 text-slate-300 hover:bg-slate-700 hover:text-white border border-slate-700"
+                className="bg-slate-800/80 text-slate-300 hover:bg-slate-700 hover:text-white border border-slate-700/50 shrink-0"
               >
-                <PlusIcon className="mr-2 h-3 w-3" />
+                <PlusIcon className="mr-2 h-3.5 w-3.5" />
                 Add Position
               </Button>
             </div>
 
-            <div className="grid gap-4 md:grid-cols-2">
+            <div className="grid gap-3 md:grid-cols-2">
               {positionFields.map((field, index) => (
                 <div
                   key={field.id}
-                  className="flex items-start gap-3 p-4 rounded-xl bg-slate-900/40 border border-slate-800/60 hover:border-slate-700 transition-colors group"
+                  className="flex items-start gap-3 p-4 rounded-xl bg-slate-900/50 border border-slate-800/60 hover:border-indigo-500/30 hover:bg-slate-900/60 transition-all group"
                 >
                   <Controller
                     control={control}
@@ -366,12 +353,11 @@ export function OrganizationSettings() {
             </div>
           </div>
 
-          {/* Users Section */}
-          <div className="space-y-6 pt-8 border-t border-slate-800/60">
-            <div className="flex items-center justify-between">
-              <div>
-                <h3 className="text-lg font-medium text-slate-200">Team Members</h3>
-                <p className="text-sm text-slate-500">Manage access and roles for your team members.</p>
+          <div className="space-y-5 pt-6 border-t border-slate-800/60">
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+              <div className="flex-1">
+                <h3 className="text-base font-semibold text-slate-200">Team Members</h3>
+                <p className="text-sm text-slate-400 mt-1">Manage access and roles for your team members.</p>
               </div>
               <Button
                 variant="secondary"
@@ -385,9 +371,9 @@ export function OrganizationSettings() {
                     job: '',
                   })
                 }
-                className="bg-slate-800 text-slate-300 hover:bg-slate-700 hover:text-white border border-slate-700"
+                className="bg-slate-800/80 text-slate-300 hover:bg-slate-700 hover:text-white border border-slate-700/50 shrink-0"
               >
-                <PlusIcon className="mr-2 h-3 w-3" />
+                <PlusIcon className="mr-2 h-3.5 w-3.5" />
                 Add Member
               </Button>
             </div>
@@ -396,7 +382,7 @@ export function OrganizationSettings() {
               {userFields.map((field, index) => (
                 <div
                   key={field.id}
-                  className="grid grid-cols-1 md:grid-cols-2 gap-3 p-4 rounded-xl bg-slate-900/40 border border-slate-800/60 hover:border-slate-700 transition-all relative group items-start"
+                  className="grid grid-cols-1 md:grid-cols-2 gap-3 p-5 rounded-xl bg-slate-900/50 border border-slate-800/60 hover:border-indigo-500/30 hover:bg-slate-900/60 transition-all relative group items-start"
                 >
                   <div>
                     <Controller

@@ -134,7 +134,7 @@ export function getApi() {
       return appApiFetchClient('/organization', {
         method: 'POST',
         body,
-        responseBodySchema: z.any(), // Adjust if response schema is known
+        responseBodySchema: z.any(),
       })
     },
 
@@ -171,7 +171,7 @@ export function getApi() {
       return appApiFetchClient('/organization', {
         method: 'PUT',
         body,
-        responseBodySchema: z.any(), // Adjust if response schema is known
+        responseBodySchema: z.any(),
       })
     },
   }

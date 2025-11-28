@@ -24,20 +24,13 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({error: 'subtasks array cannot be empty'}, {status: 400})
     }
 
-    // Validate each subtask has required fields
     for (let i = 0; i < subtasks.length; i++) {
       const subtask = subtasks[i]
       if (!subtask.summary || typeof subtask.summary !== 'string') {
-        return NextResponse.json(
-          {error: `Subtask at index ${i} is missing required field: summary`},
-          {status: 400},
-        )
+        return NextResponse.json({error: `Subtask at index ${i} is missing required field: summary`}, {status: 400})
       }
       if (!subtask.parentKey || typeof subtask.parentKey !== 'string') {
-        return NextResponse.json(
-          {error: `Subtask at index ${i} is missing required field: parentKey`},
-          {status: 400},
-        )
+        return NextResponse.json({error: `Subtask at index ${i} is missing required field: parentKey`}, {status: 400})
       }
     }
 
@@ -49,4 +42,3 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({error: message}, {status: 500})
   }
 }
-

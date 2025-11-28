@@ -1,4 +1,3 @@
-// app/api/jira/subtasks/route.ts
 import {createSubtask, getSubtasks} from '@/server/jira'
 import {NextRequest, NextResponse} from 'next/server'
 
@@ -47,7 +46,6 @@ export async function POST(req: NextRequest) {
   }
 }
 
-// GET subtasks by parent
 export async function GET(req: NextRequest) {
   try {
     const {searchParams} = new URL(req.url)

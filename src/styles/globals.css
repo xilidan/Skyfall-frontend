@@ -1,11 +1,7 @@
-/* Import all of Tailwind */
 @import 'tailwindcss';
 
 @custom-variant dark (&:is(.dark *));
-
-/* === Design tokens / theming === */
 :root {
-  /* Modern Real Estate Color Palette */
   --primary-50: #f0f9ff;
   --primary-100: #e0f2fe;
   --primary-200: #bae6fd;
@@ -17,7 +13,6 @@
   --primary-800: #075985;
   --primary-900: #0c4a6e;
 
-  /* Accent Colors */
   --accent-orange: #f97316;
   --accent-orange-light: #fed7aa;
   --accent-green: #10b981;
@@ -106,7 +101,6 @@
   --radius-xl: calc(var(--radius) + 4px);
 }
 
-/* === Base styles (old @layer base merged here) === */
 @layer base {
   html {
     @apply font-sans font-normal leading-normal;
@@ -120,7 +114,6 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 
-    /* Prevent layout shift from scrollbar appearing/disappearing */
     scrollbar-gutter: stable;
   }
 
@@ -236,6 +229,37 @@
     }
   }
 
+  @keyframes fade-out {
+    from {
+      opacity: 1;
+    }
+    to {
+      opacity: 0;
+    }
+  }
+
+  @keyframes modal-enter {
+    from {
+      opacity: 0;
+      transform: scale(0.95) translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1) translateY(0);
+    }
+  }
+
+  @keyframes modal-exit {
+    from {
+      opacity: 1;
+      transform: scale(1) translateY(0);
+    }
+    to {
+      opacity: 0;
+      transform: scale(0.95) translateY(20px);
+    }
+  }
+
   @keyframes wave {
     0%,
     100% {
@@ -291,7 +315,6 @@
     animation: shimmer 2s infinite;
   }
 
-  /* Modern Gradients */
   .gradient-primary {
     background: linear-gradient(135deg, var(--primary-500) 0%, var(--primary-700) 100%);
   }
@@ -333,7 +356,6 @@
   }
 }
 
-/* === Body fallback (optional, mostly redundant now) === */
 
 .dark {
   --background: oklch(0.145 0 0);

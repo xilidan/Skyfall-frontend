@@ -21,7 +21,6 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({error: 'transitions array cannot be empty'}, {status: 400})
     }
 
-    // Validate each transition
     for (let i = 0; i < transitions.length; i++) {
       const transition = transitions[i]
       if (!transition.issueKey || typeof transition.issueKey !== 'string') {

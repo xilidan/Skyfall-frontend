@@ -15,7 +15,6 @@ function PopoverTrigger({className, ...props}: React.ComponentProps<typeof Popov
       data-slot="popover-trigger"
       className={cn(
         'transition-all duration-200 ease-out',
-        // 'hover:scale-[1.02] active:scale-[0.98]',
         'focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2',
         className,
       )}

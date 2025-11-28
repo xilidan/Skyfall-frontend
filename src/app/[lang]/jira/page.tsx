@@ -1,4 +1,3 @@
-// app/jira/page.tsx
 'use client'
 
 import {FormEvent, useEffect, useState} from 'react'
@@ -128,7 +127,6 @@ export default function JiraIssuesPage() {
     <div className="mx-auto max-w-3xl space-y-8 p-6">
       <h1 className="text-2xl font-bold">Jira Tasks (Issues)</h1>
 
-      {/* Create form */}
       <form onSubmit={handleCreate} className="space-y-3 rounded-lg border p-4">
         <h2 className="font-semibold">Create new task</h2>
         <div className="space-y-1">
@@ -158,7 +156,6 @@ export default function JiraIssuesPage() {
         </button>
       </form>
 
-      {/* List issues */}
       <div className="space-y-3 rounded-lg border p-4">
         <div className="flex items-center justify-between">
           <h2 className="font-semibold">Issues list</h2>

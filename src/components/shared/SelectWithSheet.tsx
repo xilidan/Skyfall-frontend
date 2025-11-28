@@ -55,7 +55,6 @@ export function Select<T extends object>({
   return (
     <RACSelect
       {...props}
-      // HACK: Disable default placeholder
       placeholder={props.placeholder ?? ''}
       className={composeRenderProps(props.className, (className) => twMerge('group flex flex-col gap-2', className))}
     >
@@ -128,7 +127,6 @@ export function SelectSheet<T extends object>({
 }) {
   const isHidden = useIsHidden()
   if (isHidden) {
-    // HACK: Populate list state
     return <RACListBox {...props} />
   }
   return (

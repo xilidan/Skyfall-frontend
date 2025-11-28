@@ -13,8 +13,8 @@ msgstr ""
 "Language-Team: \n"
 "Plural-Forms: \n"
 
-#: src/lib/translations.ts:11
-#: src/lib/translations.ts:21
+#: src/lib/translations.ts:5
+#: src/lib/translations.ts:9
 msgid "{text}"
 msgstr "{text}"
 
@@ -22,7 +22,7 @@ msgstr "{text}"
 msgid "<0/> Previous"
 msgstr "<0/> Назад"
 
-#: src/components/auth/RegistrationForm.tsx:56
+#: src/components/auth/RegistrationForm.tsx:58
 msgid "Account created successfully"
 msgstr "Аккаунт успешно создан"
 
@@ -35,7 +35,7 @@ msgctxt "RegionList"
 msgid "Almaty"
 msgstr "Алматы"
 
-#: src/components/auth/RegistrationForm.tsx:207
+#: src/components/auth/RegistrationForm.tsx:243
 msgid "Already have an account?"
 msgstr "Уже есть аккаунт?"
 
@@ -43,8 +43,8 @@ msgstr "Уже есть аккаунт?"
 msgid "An error occurred."
 msgstr "Произошла ошибка."
 
-#: src/components/auth/LoginForm.tsx:52
-#: src/components/auth/RegistrationForm.tsx:64
+#: src/components/auth/LoginForm.tsx:54
+#: src/components/auth/RegistrationForm.tsx:66
 msgid "An unexpected error occurred."
 msgstr "Произошла непредвиденная ошибка."
 
@@ -57,12 +57,12 @@ msgstr "Астана"
 msgid "Automate Jira tasks, transcribe meetings, and analyze Merge Requests. From technical specs to delivery - streamline your workflow with AI."
 msgstr ""
 
-#: src/config/formatter.ts:182
+#: src/config/formatter.ts:177
 msgctxt "PropertyPurpose"
 msgid "Commercial"
 msgstr "Коммерциялый"
 
-#: src/components/auth/RegistrationForm.tsx:95
+#: src/components/auth/RegistrationForm.tsx:131
 msgid "Create an account"
 msgstr "Создать аккаунт"
 
@@ -70,17 +70,17 @@ msgstr "Создать аккаунт"
 msgid "Create property"
 msgstr "Создать объявление"
 
-#: src/config/formatter.ts:186
+#: src/config/formatter.ts:181
 msgctxt "PropertyPurpose"
 msgid "Dacha"
 msgstr "Дача"
 
-#: src/config/formatter.ts:238
+#: src/config/formatter.ts:233
 msgctxt "Divisibility"
 msgid "Divisible"
 msgstr "Делимый"
 
-#: src/components/auth/LoginForm.tsx:146
+#: src/components/auth/LoginForm.tsx:181
 msgid "Don't have an account?"
 msgstr "Нет аккаунта?"
 
@@ -88,12 +88,12 @@ msgstr "Нет аккаунта?"
 msgid "Drag and drop files here or click to upload"
 msgstr "Перетащите файлы сюда или нажмите для загрузки"
 
-#: src/components/auth/LoginForm.tsx:112
-#: src/components/auth/RegistrationForm.tsx:117
+#: src/components/auth/LoginForm.tsx:147
+#: src/components/auth/RegistrationForm.tsx:153
 msgid "Email"
 msgstr "Электронная почта"
 
-#: src/components/auth/RegistrationForm.tsx:61
+#: src/components/auth/RegistrationForm.tsx:63
 msgid "Email already in use, please use a different email."
 msgstr "Email уже используется, пожалуйста, используйте другой email."
 
@@ -101,70 +101,70 @@ msgstr "Email уже используется, пожалуйста, испол�
 msgid "English"
 msgstr "Английский"
 
-#: src/components/auth/LoginForm.tsx:94
+#: src/components/auth/LoginForm.tsx:129
 msgid "Enter your credentials to access your account"
 msgstr "Введите свои учетные данные для доступа к вашему аккаунту"
 
-#: src/components/auth/RegistrationForm.tsx:99
+#: src/components/auth/RegistrationForm.tsx:135
 msgid "Enter your credentials to create an account"
 msgstr "Введите свои данные для создания аккаунта"
 
-#: src/components/auth/RegistrationForm.tsx:33
+#: src/components/auth/RegistrationForm.tsx:35
 msgid "Enter your first name."
 msgstr "Введите ваше имя."
 
-#: src/components/auth/RegistrationForm.tsx:34
+#: src/components/auth/RegistrationForm.tsx:36
 msgid "Enter your last name."
 msgstr "Введите вашу фамилию."
 
-#: src/components/auth/RegistrationForm.tsx:35
+#: src/components/auth/RegistrationForm.tsx:37
 msgid "Enter your password confirmation."
 msgstr ""
 
-#: src/components/auth/LoginForm.tsx:32
-#: src/components/auth/RegistrationForm.tsx:32
+#: src/components/auth/LoginForm.tsx:34
+#: src/components/auth/RegistrationForm.tsx:34
 msgid "Enter your password."
 msgstr "Введите ваш пароль."
 
-#: src/config/formatter.ts:190
+#: src/config/formatter.ts:185
 msgctxt "PropertyPurpose"
 msgid "Farm"
 msgstr "Ферма"
 
-#: src/components/auth/RegistrationForm.tsx:169
+#: src/components/auth/RegistrationForm.tsx:205
 msgid "First name"
 msgstr "Имя"
 
-#: src/config/formatter.ts:194
+#: src/config/formatter.ts:189
 msgctxt "PropertyPurpose"
 msgid "Horticulture"
 msgstr "Садоводство"
 
-#: src/config/formatter.ts:220
+#: src/config/formatter.ts:215
 msgctxt "PledgeStatus"
 msgid "In Pledge"
 msgstr "В залоге"
 
-#: src/config/formatter.ts:198
+#: src/config/formatter.ts:193
 msgctxt "PropertyPurpose"
 msgid "Individual Housing"
 msgstr "Индивидуальное жилищное строительство"
 
-#: src/config/formatter.ts:242
+#: src/config/formatter.ts:237
 msgctxt "Divisibility"
 msgid "Indivisible"
 msgstr "Неделимый"
 
-#: src/components/auth/LoginForm.tsx:31
-#: src/components/auth/RegistrationForm.tsx:31
+#: src/components/auth/LoginForm.tsx:33
+#: src/components/auth/RegistrationForm.tsx:33
 msgid "Invalid email."
 msgstr "Неверный email."
 
-#: src/components/auth/LoginForm.tsx:49
+#: src/components/auth/LoginForm.tsx:51
 msgid "Invalid password."
 msgstr "Неверный пароль."
 
-#: src/config/formatter.ts:115
+#: src/config/formatter.ts:110
 msgid "Just now"
 msgstr "Только что"
 
@@ -172,15 +172,15 @@ msgstr "Только что"
 msgid "Kazakh"
 msgstr "Казахский"
 
-#: src/components/shared/LocaleSelect.tsx:33
+#: src/components/shared/LocaleSelect.tsx:32
 msgid "Language"
 msgstr "Язык"
 
-#: src/components/auth/RegistrationForm.tsx:189
+#: src/components/auth/RegistrationForm.tsx:225
 msgid "Last name"
 msgstr "Фамилия"
 
-#: src/config/formatter.ts:202
+#: src/config/formatter.ts:197
 msgctxt "PropertyPurpose"
 msgid "Low Rise Residential"
 msgstr "Низкоэтажное жилищное строительство"
@@ -193,32 +193,32 @@ msgstr "Далее <0/>"
 msgid "No properties found."
 msgstr "Объекты не найдены."
 
-#: src/config/formatter.ts:224
+#: src/config/formatter.ts:219
 msgctxt "PledgeStatus"
 msgid "Not in Pledge"
 msgstr "Не в залоге"
 
-#: src/config/formatter.ts:246
+#: src/config/formatter.ts:241
 msgctxt "Divisibility"
 msgid "Not Specified"
 msgstr "Не указано"
 
-#: src/config/formatter.ts:228
+#: src/config/formatter.ts:223
 msgctxt "PledgeStatus"
 msgid "Not Specified"
 msgstr "Не указано"
 
-#: src/config/formatter.ts:206
+#: src/config/formatter.ts:201
 msgctxt "PropertyPurpose"
 msgid "Other"
 msgstr "Другое"
 
-#: src/components/auth/LoginForm.tsx:129
-#: src/components/auth/RegistrationForm.tsx:134
+#: src/components/auth/LoginForm.tsx:164
+#: src/components/auth/RegistrationForm.tsx:170
 msgid "Password"
 msgstr "Пароль"
 
-#: src/components/auth/RegistrationForm.tsx:150
+#: src/components/auth/RegistrationForm.tsx:186
 msgid "Password confirmation"
 msgstr ""
 
@@ -226,7 +226,7 @@ msgstr ""
 msgid "Russian"
 msgstr "Русский"
 
-#: src/components/shared/Select.tsx:42
+#: src/components/shared/Select.tsx:40
 msgid "Select an option…"
 msgstr "Выберите вариант…"
 
@@ -235,17 +235,17 @@ msgctxt "RegionList"
 msgid "Shymkent"
 msgstr "Шымкент"
 
-#: src/components/auth/LoginForm.tsx:141
-#: src/components/auth/RegistrationForm.tsx:212
+#: src/components/auth/LoginForm.tsx:176
+#: src/components/auth/RegistrationForm.tsx:248
 msgid "Sign in"
 msgstr "Войти"
 
-#: src/components/auth/LoginForm.tsx:151
-#: src/components/auth/RegistrationForm.tsx:202
+#: src/components/auth/LoginForm.tsx:186
+#: src/components/auth/RegistrationForm.tsx:238
 msgid "Sign up"
 msgstr "Зарегистрироваться"
 
-#: src/config/formatter.ts:210
+#: src/config/formatter.ts:205
 msgctxt "PropertyPurpose"
 msgid "Subsidiary Farming"
 msgstr "Коммунальное хозяйство"
@@ -254,11 +254,11 @@ msgstr "Коммунальное хозяйство"
 msgid "Update property"
 msgstr "Обновить объект"
 
-#: src/components/auth/LoginForm.tsx:46
+#: src/components/auth/LoginForm.tsx:48
 msgid "User not found."
 msgstr "Пользователь не найден."
 
-#: src/components/auth/LoginForm.tsx:90
+#: src/components/auth/LoginForm.tsx:125
 msgid "Welcome Back"
 msgstr "Добро пожаловать"
 

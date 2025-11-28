@@ -36,7 +36,6 @@ export function ChangeLocale() {
                   const newPath = `/${locale}/${pathNameWithoutLocale.join('/')}`
                   setLocale(locale as Locale)
 
-                  // Set cookie to persist locale preference
                   document.cookie = `NEXT_LOCALE=${locale}; path=/; max-age=${60 * 60 * 24 * 365}; SameSite=Lax`
 
                   router.replace(newPath, {scroll: false})

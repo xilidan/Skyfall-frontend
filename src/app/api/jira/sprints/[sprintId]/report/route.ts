@@ -1,4 +1,3 @@
-// app/api/jira/sprints/[sprintId]/report/route.ts
 import {getSprintReport} from '@/server/jira'
 import {NextRequest, NextResponse} from 'next/server'
 

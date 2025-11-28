@@ -6,11 +6,10 @@ export function AnimatedLogo({className = ''}: {className?: string}) {
   return (
     <div className={`relative w-32 h-32 ${className}`}>
       <svg viewBox="0 0 100 100" className="w-full h-full overflow-visible">
-        {/* Defs for gradients */}
         <defs>
           <linearGradient id="brainGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="#60A5FA" /> {/* Blue-400 */}
-            <stop offset="100%" stopColor="#A78BFA" /> {/* Purple-400 */}
+            <stop offset="0%" stopColor="#60A5FA" />
+            <stop offset="100%" stopColor="#A78BFA" />
           </linearGradient>
           <linearGradient id="lineGradient" x1="0%" y1="0%" x2="100%" y2="0%">
             <stop offset="0%" stopColor="#60A5FA" stopOpacity="0.2" />
@@ -18,7 +17,6 @@ export function AnimatedLogo({className = ''}: {className?: string}) {
           </linearGradient>
         </defs>
 
-        {/* Connecting Lines */}
         <motion.g initial={{opacity: 0}} animate={{opacity: 1}} transition={{duration: 1, delay: 0.5}}>
           <motion.line
             x1="50"
@@ -58,7 +56,6 @@ export function AnimatedLogo({className = ''}: {className?: string}) {
           />
         </motion.g>
 
-        {/* Orbiting Nodes */}
         <motion.g
           animate={{rotate: 360}}
           transition={{duration: 10, repeat: Infinity, ease: 'linear'}}
@@ -69,7 +66,6 @@ export function AnimatedLogo({className = ''}: {className?: string}) {
           <circle cx="76" cy="65" r="4" fill="#34D399" className="drop-shadow-lg" />
         </motion.g>
 
-        {/* Central Brain/Core */}
         <motion.circle
           cx="50"
           cy="50"
@@ -81,7 +77,6 @@ export function AnimatedLogo({className = ''}: {className?: string}) {
           className="drop-shadow-xl"
         />
 
-        {/* Checkmark overlay */}
         <motion.path
           d="M42 50 L48 56 L58 44"
           fill="none"
@@ -95,7 +90,6 @@ export function AnimatedLogo({className = ''}: {className?: string}) {
         />
       </svg>
 
-      {/* Glow effect behind */}
       <div className="absolute inset-0 bg-blue-500/20 blur-2xl rounded-full -z-10 animate-pulse" />
     </div>
   )

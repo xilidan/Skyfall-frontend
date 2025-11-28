@@ -4,7 +4,6 @@ import {I18n, Locale, Messages, setupI18n} from '@lingui/core'
 import linguiConfig from '../../lingui.config.js'
 
 const {locales} = linguiConfig
-// optionally use a stricter union type
 
 async function loadCatalog(locale: Locale): Promise<{
   [k: Locale]: Messages
@@ -16,7 +15,6 @@ async function loadCatalog(locale: Locale): Promise<{
 }
 const catalogs = await Promise.all(locales.map(loadCatalog))
 
-// transform array of catalogs into a single object
 export const allMessages = catalogs.reduce((acc: any, oneCatalog: any) => {
   return {...acc, ...oneCatalog}
 }, {})

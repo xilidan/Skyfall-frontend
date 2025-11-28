@@ -13,8 +13,8 @@ msgstr ""
 "Language-Team: \n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: src/lib/translations.ts:11
-#: src/lib/translations.ts:21
+#: src/lib/translations.ts:5
+#: src/lib/translations.ts:9
 msgid "{text}"
 msgstr "{text}"
 
@@ -22,7 +22,7 @@ msgstr "{text}"
 msgid "<0/> Previous"
 msgstr "<0/> Алдыңғы"
 
-#: src/components/auth/RegistrationForm.tsx:56
+#: src/components/auth/RegistrationForm.tsx:58
 msgid "Account created successfully"
 msgstr "Есептік жазба сәтті құрылды"
 
@@ -35,7 +35,7 @@ msgctxt "RegionList"
 msgid "Almaty"
 msgstr "Алматы"
 
-#: src/components/auth/RegistrationForm.tsx:207
+#: src/components/auth/RegistrationForm.tsx:243
 msgid "Already have an account?"
 msgstr "Есептік жазбаңыз бар ма?"
 
@@ -43,8 +43,8 @@ msgstr "Есептік жазбаңыз бар ма?"
 msgid "An error occurred."
 msgstr "Қате орын алды."
 
-#: src/components/auth/LoginForm.tsx:52
-#: src/components/auth/RegistrationForm.tsx:64
+#: src/components/auth/LoginForm.tsx:54
+#: src/components/auth/RegistrationForm.tsx:66
 msgid "An unexpected error occurred."
 msgstr "Күтпеген қате орын алды."
 
@@ -57,12 +57,12 @@ msgstr "Астана"
 msgid "Automate Jira tasks, transcribe meetings, and analyze Merge Requests. From technical specs to delivery - streamline your workflow with AI."
 msgstr ""
 
-#: src/config/formatter.ts:182
+#: src/config/formatter.ts:177
 msgctxt "PropertyPurpose"
 msgid "Commercial"
 msgstr "Коммерциялық"
 
-#: src/components/auth/RegistrationForm.tsx:95
+#: src/components/auth/RegistrationForm.tsx:131
 msgid "Create an account"
 msgstr "Тіркелгі жасау"
 
@@ -70,17 +70,17 @@ msgstr "Тіркелгі жасау"
 msgid "Create property"
 msgstr "Мүлік қосу"
 
-#: src/config/formatter.ts:186
+#: src/config/formatter.ts:181
 msgctxt "PropertyPurpose"
 msgid "Dacha"
 msgstr "Дача"
 
-#: src/config/formatter.ts:238
+#: src/config/formatter.ts:233
 msgctxt "Divisibility"
 msgid "Divisible"
 msgstr "Бөлінетін"
 
-#: src/components/auth/LoginForm.tsx:146
+#: src/components/auth/LoginForm.tsx:181
 msgid "Don't have an account?"
 msgstr "Есептік жазбаңыз жоқ па?"
 
@@ -88,12 +88,12 @@ msgstr "Есептік жазбаңыз жоқ па?"
 msgid "Drag and drop files here or click to upload"
 msgstr "Файлдарды осында сүйреп тастаңыз немесе жүктеу үшін басыңыз"
 
-#: src/components/auth/LoginForm.tsx:112
-#: src/components/auth/RegistrationForm.tsx:117
+#: src/components/auth/LoginForm.tsx:147
+#: src/components/auth/RegistrationForm.tsx:153
 msgid "Email"
 msgstr "Email"
 
-#: src/components/auth/RegistrationForm.tsx:61
+#: src/components/auth/RegistrationForm.tsx:63
 msgid "Email already in use, please use a different email."
 msgstr "Бұл email бұрыннан қолдануда, басқа email енгізіңіз."
 
@@ -101,70 +101,70 @@ msgstr "Бұл email бұрыннан қолдануда, басқа email ен�
 msgid "English"
 msgstr "Ағылшын"
 
-#: src/components/auth/LoginForm.tsx:94
+#: src/components/auth/LoginForm.tsx:129
 msgid "Enter your credentials to access your account"
 msgstr "Тіркелгіңізге кіру үшін деректеріңізді енгізіңіз"
 
-#: src/components/auth/RegistrationForm.tsx:99
+#: src/components/auth/RegistrationForm.tsx:135
 msgid "Enter your credentials to create an account"
 msgstr "Тіркелгі жасау үшін деректеріңізді енгізіңіз"
 
-#: src/components/auth/RegistrationForm.tsx:33
+#: src/components/auth/RegistrationForm.tsx:35
 msgid "Enter your first name."
 msgstr "Атыңызды енгізіңіз."
 
-#: src/components/auth/RegistrationForm.tsx:34
+#: src/components/auth/RegistrationForm.tsx:36
 msgid "Enter your last name."
 msgstr "Тегіңізді енгізіңіз."
 
-#: src/components/auth/RegistrationForm.tsx:35
+#: src/components/auth/RegistrationForm.tsx:37
 msgid "Enter your password confirmation."
 msgstr ""
 
-#: src/components/auth/LoginForm.tsx:32
-#: src/components/auth/RegistrationForm.tsx:32
+#: src/components/auth/LoginForm.tsx:34
+#: src/components/auth/RegistrationForm.tsx:34
 msgid "Enter your password."
 msgstr "Құпиясөзіңізді енгізіңіз."
 
-#: src/config/formatter.ts:190
+#: src/config/formatter.ts:185
 msgctxt "PropertyPurpose"
 msgid "Farm"
 msgstr "Егістік/Ферма"
 
-#: src/components/auth/RegistrationForm.tsx:169
+#: src/components/auth/RegistrationForm.tsx:205
 msgid "First name"
 msgstr "Аты"
 
-#: src/config/formatter.ts:194
+#: src/config/formatter.ts:189
 msgctxt "PropertyPurpose"
 msgid "Horticulture"
 msgstr "Бау-бақша"
 
-#: src/config/formatter.ts:220
+#: src/config/formatter.ts:215
 msgctxt "PledgeStatus"
 msgid "In Pledge"
 msgstr "Кепілде"
 
-#: src/config/formatter.ts:198
+#: src/config/formatter.ts:193
 msgctxt "PropertyPurpose"
 msgid "Individual Housing"
 msgstr "Жеке тұрғын үй"
 
-#: src/config/formatter.ts:242
+#: src/config/formatter.ts:237
 msgctxt "Divisibility"
 msgid "Indivisible"
 msgstr "Бөлінбейтін"
 
-#: src/components/auth/LoginForm.tsx:31
-#: src/components/auth/RegistrationForm.tsx:31
+#: src/components/auth/LoginForm.tsx:33
+#: src/components/auth/RegistrationForm.tsx:33
 msgid "Invalid email."
 msgstr "Жарамсыз email."
 
-#: src/components/auth/LoginForm.tsx:49
+#: src/components/auth/LoginForm.tsx:51
 msgid "Invalid password."
 msgstr "Жарамсыз құпиясөз."
 
-#: src/config/formatter.ts:115
+#: src/config/formatter.ts:110
 msgid "Just now"
 msgstr "Жаңа ғана"
 
@@ -172,15 +172,15 @@ msgstr "Жаңа ғана"
 msgid "Kazakh"
 msgstr "Қазақ"
 
-#: src/components/shared/LocaleSelect.tsx:33
+#: src/components/shared/LocaleSelect.tsx:32
 msgid "Language"
 msgstr "Тіл"
 
-#: src/components/auth/RegistrationForm.tsx:189
+#: src/components/auth/RegistrationForm.tsx:225
 msgid "Last name"
 msgstr "Тегі"
 
-#: src/config/formatter.ts:202
+#: src/config/formatter.ts:197
 msgctxt "PropertyPurpose"
 msgid "Low Rise Residential"
 msgstr "Төмен қабатты тұрғын үй"
@@ -193,32 +193,32 @@ msgstr "Келесі <0/>"
 msgid "No properties found."
 msgstr "Мүлік табылмады."
 
-#: src/config/formatter.ts:224
+#: src/config/formatter.ts:219
 msgctxt "PledgeStatus"
 msgid "Not in Pledge"
 msgstr "Кепілде емес"
 
-#: src/config/formatter.ts:246
+#: src/config/formatter.ts:241
 msgctxt "Divisibility"
 msgid "Not Specified"
 msgstr "Көрсетілмеген"
 
-#: src/config/formatter.ts:228
+#: src/config/formatter.ts:223
 msgctxt "PledgeStatus"
 msgid "Not Specified"
 msgstr "Көрсетілмеген"
 
-#: src/config/formatter.ts:206
+#: src/config/formatter.ts:201
 msgctxt "PropertyPurpose"
 msgid "Other"
 msgstr "Басқа"
 
-#: src/components/auth/LoginForm.tsx:129
-#: src/components/auth/RegistrationForm.tsx:134
+#: src/components/auth/LoginForm.tsx:164
+#: src/components/auth/RegistrationForm.tsx:170
 msgid "Password"
 msgstr "Құпиясөз"
 
-#: src/components/auth/RegistrationForm.tsx:150
+#: src/components/auth/RegistrationForm.tsx:186
 msgid "Password confirmation"
 msgstr ""
 
@@ -226,7 +226,7 @@ msgstr ""
 msgid "Russian"
 msgstr "Орыс"
 
-#: src/components/shared/Select.tsx:42
+#: src/components/shared/Select.tsx:40
 msgid "Select an option…"
 msgstr "Опцияны таңдаңыз…"
 
@@ -235,17 +235,17 @@ msgctxt "RegionList"
 msgid "Shymkent"
 msgstr "Шымкент"
 
-#: src/components/auth/LoginForm.tsx:141
-#: src/components/auth/RegistrationForm.tsx:212
+#: src/components/auth/LoginForm.tsx:176
+#: src/components/auth/RegistrationForm.tsx:248
 msgid "Sign in"
 msgstr "Кіру"
 
-#: src/components/auth/LoginForm.tsx:151
-#: src/components/auth/RegistrationForm.tsx:202
+#: src/components/auth/LoginForm.tsx:186
+#: src/components/auth/RegistrationForm.tsx:238
 msgid "Sign up"
 msgstr "Тіркелу"
 
-#: src/config/formatter.ts:210
+#: src/config/formatter.ts:205
 msgctxt "PropertyPurpose"
 msgid "Subsidiary Farming"
 msgstr "Қосалқы шаруашылық"
@@ -254,11 +254,11 @@ msgstr "Қосалқы шаруашылық"
 msgid "Update property"
 msgstr "Мүлікті жаңарту"
 
-#: src/components/auth/LoginForm.tsx:46
+#: src/components/auth/LoginForm.tsx:48
 msgid "User not found."
 msgstr "Пайдаланушы табылмады."
 
-#: src/components/auth/LoginForm.tsx:90
+#: src/components/auth/LoginForm.tsx:125
 msgid "Welcome Back"
 msgstr "Қайта келдіңіз"
 

@@ -31,7 +31,6 @@ Below is the generated analysis for the provided input:
 ## 🧪 Code Block Example
 
 \`\`\`ts
-// Jira issue payload example
 const issue = {
   fields: {
     summary: "Implement authentication flow",

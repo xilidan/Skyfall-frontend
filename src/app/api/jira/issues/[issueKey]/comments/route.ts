@@ -1,4 +1,3 @@
-// app/api/jira/issues/[issueKey]/comments/route.ts
 import {addComment, getComments} from '@/server/jira'
 import {NextRequest, NextResponse} from 'next/server'
 

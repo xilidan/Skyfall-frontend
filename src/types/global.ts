@@ -1,13 +1,13 @@
 export type Locale = 'en' | 'ru' | 'kk'
 
 export const PropertyPurpose = {
-  IndividualHousing: 'individual_housing', // ИЖС
-  Farm: 'farm', // КХ (крестьянское хозяйство)
-  SubsidiaryFarming: 'subsidiary_farming', // ЛПХ (личное подсобное хозяйство)
-  Horticulture: 'horticulture', // Садоводство
-  Commercial: 'commercial', // Коммерческое
-  LowRiseResidential: 'low_rise_residential', // МЖС (малоэтажное жилищное строительство)
-  Dacha: 'dacha', // Дачное строительство
+  IndividualHousing: 'individual_housing',
+  Farm: 'farm',
+  SubsidiaryFarming: 'subsidiary_farming',
+  Horticulture: 'horticulture',
+  Commercial: 'commercial',
+  LowRiseResidential: 'low_rise_residential',
+  Dacha: 'dacha',
   Other: 'other',
 } as const
 

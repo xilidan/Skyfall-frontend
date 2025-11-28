@@ -1,20 +1,16 @@
 import {getAllStatuses, getProjectStatuses} from '@/server/jira'
 import {NextRequest, NextResponse} from 'next/server'
 
-// GET - Get all available statuses
 export async function GET(req: NextRequest) {
   try {
     const {searchParams} = new URL(req.url)
     const projectKey = searchParams.get('projectKey')
     const grouped = searchParams.get('grouped') === 'true'
 
-    // If projectKey is provided or grouped=true, return project-specific statuses (grouped by issue type)
     if (projectKey || grouped) {
       const statuses = await getProjectStatuses(projectKey || undefined)
       return NextResponse.json({statuses, grouped: true})
     }
-
-    // Otherwise, return all statuses in the instance
     const statuses = await getAllStatuses()
     return NextResponse.json({statuses, grouped: false})
   } catch (error: unknown) {

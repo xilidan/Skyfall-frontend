@@ -23,19 +23,15 @@ export async function POST(req: NextRequest) {
   }
 }
 
-// GET - List all epics OR get issues for a specific epic
 export async function GET(req: NextRequest) {
   try {
     const {searchParams} = new URL(req.url)
     const epicKey = searchParams.get('epicKey')
 
-    // If epicKey is provided, return issues for that epic
     if (epicKey) {
       const issues = await getIssuesByEpic(epicKey)
       return NextResponse.json({issues})
     }
-
-    // Otherwise, return all epics
     const limit = parseInt(searchParams.get('limit') || '50', 10)
     const epics = await listEpics(limit)
     return NextResponse.json({epics})

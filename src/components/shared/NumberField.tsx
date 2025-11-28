@@ -32,13 +32,11 @@ export function NumberField({
     <InputContext.Provider value={{placeholder}}>
       <RACNumberField
         {...props}
-        // HACK: Freeze `formatOptions` to prevent weird behavior
         formatOptions={useMemo(
           () => ({
             useGrouping: false,
             ...props.formatOptions,
           }),
-          // eslint-disable-next-line react-hooks/exhaustive-deps
           [],
         )}
         className={composeRenderProps(props.className, (className) => twMerge('flex flex-col gap-2', className))}

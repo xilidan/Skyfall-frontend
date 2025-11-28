@@ -18,7 +18,6 @@ export function ListBox<T extends object>(props: Omit<RACListBoxProps<T>, 'layou
   return (
     <RACListBox
       {...props}
-      // HACK: Silence accessibility warnings
       aria-label={props['aria-label'] || 'Listbox'}
       className={composeRenderProps(props.className, (className) =>
         twMerge('rounded-md border border-neutral-400/20 p-1 [outline:none]', className),
@@ -119,7 +118,6 @@ export type DropdownSectionProps<T extends object> = RACSectionProps<T> & {
 
 export function DropdownSection<T extends object>(props: DropdownSectionProps<T>) {
   return (
-    // eslint-disable-next-line @typescript-eslint/no-deprecated
     <RACSection className="after:block after:h-[5px] after:content-[''] first:mt-[-5px]">
       <RACHeader className="sticky top-[-5px] z-10 -mx-1 -mt-px truncate border-y border-neutral-400/20 bg-neutral-400/20 px-4 py-1 text-sm font-semibold text-neutral-500 [&+*]:mt-1">
         {props.title}

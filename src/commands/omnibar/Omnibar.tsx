@@ -53,7 +53,6 @@ export function Omnibar() {
   }, [dialog, navigate])
 
   const prevIsOpen = usePrevious(dialog?.isOpen)
-  // Reset location and input value when closing
   useEffect(() => {
     if (prevIsOpen && !dialog?.isOpen) {
       setTimeout(() => {
@@ -62,9 +61,11 @@ export function Omnibar() {
     }
   }, [dialog?.isOpen, prevIsOpen, navigate])
 
+  const modalSize = route.command === 'addOrganization' ? 'xl' : 'lg'
+
   return (
     <OmnibarProvider value={{stack, navigate, goBack}}>
-      <Modal isDismissable>
+      <Modal isDismissable size={modalSize}>
         <Dialog>
           <CommandComponent {...(route.props ?? {})} />
         </Dialog>

@@ -29,7 +29,6 @@ type SelectProps<T extends object> = Omit<RACSelectProps<T>, 'children'> &
 
 export const Select = forwardRef<
   React.ComponentRef<typeof RACSelect>,
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   SelectProps<any>
 >(function Select({variant, size, autoFocus, label, description, errorMessage, items, renderValue, ...props}, ref) {
   const {t} = useLingui()
@@ -37,7 +36,6 @@ export const Select = forwardRef<
     <RACSelect
       {...props}
       ref={ref}
-      // HACK: Silence accessibility warnings
       aria-label={props['aria-label'] || 'Select'}
       placeholder={props.placeholder ?? t`Select an option…`}
       className={composeRenderProps(props.className, (className) => twMerge('group flex flex-col gap-1', className))}

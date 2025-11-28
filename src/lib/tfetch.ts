@@ -31,7 +31,6 @@ export function makeTfetch(defaults: FetchOptions = {}) {
         } catch {}
       }
       const payload = {request, options, error}
-      // Rethrow network/HTTP error so callers (e.g., react-query) receive a rejected promise
       throw error as any
     }
   }

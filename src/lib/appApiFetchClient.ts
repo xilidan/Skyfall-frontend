@@ -16,11 +16,5 @@ export const appApiFetchClient = makeTfetch({
     }
   },
   onResponseError: async (ctx) => {
-    // if (ctx.response?._data?.statusCode === 401) {
-    //   await appApiFetchClient('/auth/refresh', {
-    //     method: 'POST',
-    //     responseBodySchema: z.unknown(),
-    //   })
-    // }
   },
 })

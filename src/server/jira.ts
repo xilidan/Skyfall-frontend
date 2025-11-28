@@ -39,7 +39,7 @@ export type JiraIssue = {
   key: string
   fields: {
     summary: string
-    description?: string | any // Can be ADF format
+    description?: string | any
     status?: {name: string; id: string}
     issuetype?: {name: string; id: string}
     assignee?: {accountId: string; displayName: string; emailAddress?: string} | null
@@ -49,9 +49,9 @@ export type JiraIssue = {
     storyPoints?: number
     parent?: {key: string; id: string; fields: {summary: string}}
     epicLink?: string
-    customfield_10016?: number // Story points field (varies by Jira instance)
+    customfield_10016?: number
     duedate?: string
-    [key: string]: any // Allow additional fields
+    [key: string]: any
   }
 }
 
@@ -59,7 +59,6 @@ export type JiraSearchResponse = {
   issues: JiraIssue[]
 }
 
-// Helper to convert text to ADF format
 function textToADF(text: string): any {
   return {
     type: 'doc',
@@ -121,42 +120,33 @@ export async function createIssue(params: {
     },
   }
 
-  // Convert description to Atlassian Document Format (ADF)
   if (description) {
     body.fields.description = textToADF(description)
   }
 
-  // Story points (customfield_10016 is common, but may vary)
   if (storyPoints !== undefined) {
     body.fields.customfield_10016 = storyPoints
   }
 
-  // Assignee
   if (finalAccountId) {
     body.fields.assignee = {accountId: finalAccountId}
   }
 
-  // Priority
   if (priority) {
     body.fields.priority = {name: priority}
   }
 
-  // Labels
   if (labels && labels.length > 0) {
     body.fields.labels = labels
   }
 
-  // Epic link
   if (epicLink) {
-    body.fields.customfield_10014 = epicLink // Epic Link field
+    body.fields.customfield_10014 = epicLink
   }
 
-  // Parent (for subtasks)
   if (parentKey) {
     body.fields.parent = {key: parentKey}
   }
-
-  // Due date
   if (dueDate) {
     body.fields.duedate = dueDate
   }
@@ -167,7 +157,6 @@ export async function createIssue(params: {
   })
 }
 
-// Batch issue creation
 export type BatchIssueResult = {
   success: boolean
   issue?: JiraIssue
@@ -240,9 +229,9 @@ export async function listIssues(limit = 20, jql?: string): Promise<JiraIssue[]>
         'assignee',
         'priority',
         'labels',
-        'customfield_10016', // Story points
+        'customfield_10016',
         'parent',
-        'customfield_10014', // Epic Link
+        'customfield_10014',
         'duedate',
       ],
     }),
@@ -295,7 +284,6 @@ export async function updateIssue(
     body.fields.labels = fields.labels
   }
   if (fields.epicLink !== undefined) {
-    // Set to null to remove epic link, or to a string to set it
     body.fields.customfield_10014 = fields.epicLink === null ? null : fields.epicLink
   }
 
@@ -305,14 +293,12 @@ export async function updateIssue(
   })
 }
 
-// D: Delete issue
 export async function deleteIssue(issueKey: string): Promise<void> {
   await jiraFetch<void>(`/issue/${encodeURIComponent(issueKey)}`, {
     method: 'DELETE',
   })
 }
 
-// Epic functionality
 export async function createEpic(params: {
   summary: string
   description?: string
@@ -323,17 +309,12 @@ export async function createEpic(params: {
       project: {key: JIRA_PROJECT_KEY},
       summary: params.summary,
       issuetype: {name: 'Epic'},
-      // Note: Epic Name field (customfield_10011) is not set here as it may not be
-      // available on the create screen. Jira typically auto-populates it from summary.
     },
   }
 
-  // Convert description to Atlassian Document Format (ADF)
   if (params.description) {
     body.fields.description = textToADF(params.description)
   }
-
-  // Labels
   if (params.labels && params.labels.length > 0) {
     body.fields.labels = params.labels
   }
@@ -344,7 +325,6 @@ export async function createEpic(params: {
   })
 }
 
-// Story functionality
 export async function createStory(params: {
   summary: string
   description?: string
@@ -360,7 +340,6 @@ export async function createStory(params: {
   })
 }
 
-// Subtask functionality
 export async function createSubtask(params: {
   summary: string
   description?: string
@@ -376,7 +355,6 @@ export async function createSubtask(params: {
   })
 }
 
-// Batch subtask creation
 export type BatchSubtaskResult = {
   success: boolean
   subtask?: JiraIssue
@@ -427,7 +405,6 @@ export async function createSubtasksBatch(
   return results
 }
 
-// Get issue transitions (available status changes)
 export type JiraTransition = {
   id: string
   name: string
@@ -441,7 +418,6 @@ export async function getIssueTransitions(issueKey: string): Promise<JiraTransit
   return response.transitions
 }
 
-// Transition issue (change status)
 export async function transitionIssue(
   issueKey: string,
   transitionId: string,
@@ -468,7 +444,6 @@ export async function transitionIssue(
   })
 }
 
-// Batch transition issues (change status of multiple issues)
 export type BatchTransitionResult = {
   success: boolean
   issueKey: string
@@ -512,7 +487,6 @@ export async function transitionIssuesBatch(
   return results
 }
 
-// Add comment to issue
 export type JiraComment = {
   id: string
   body: string | any
@@ -529,38 +503,31 @@ export async function addComment(issueKey: string, comment: string): Promise<Jir
   })
 }
 
-// Get comments for an issue
 export async function getComments(issueKey: string): Promise<JiraComment[]> {
   const response = await jiraFetch<{comments: JiraComment[]}>(`/issue/${encodeURIComponent(issueKey)}/comment`)
   return response.comments
 }
 
-// Get backlog issues (not in any sprint)
 export async function getBacklogIssues(limit = 50): Promise<JiraIssue[]> {
   const jql = `project = "${JIRA_PROJECT_KEY}" AND sprint IS EMPTY ORDER BY priority DESC, created DESC`
   return listIssues(limit, jql)
 }
 
-// Get issues by epic
 export async function getIssuesByEpic(epicKey: string): Promise<JiraIssue[]> {
-  // JQL syntax: Epic Link field requires the epic key value
   const jql = `"Epic Link" = ${epicKey} ORDER BY priority DESC, created DESC`
   return listIssues(100, jql)
 }
 
-// List all epics
 export async function listEpics(limit = 50): Promise<JiraIssue[]> {
   const jql = `project = "${JIRA_PROJECT_KEY}" AND issuetype = Epic ORDER BY created DESC`
   return listIssues(limit, jql)
 }
 
-// Get subtasks of an issue
 export async function getSubtasks(parentKey: string): Promise<JiraIssue[]> {
   const jql = `parent = ${parentKey} ORDER BY created DESC`
   return listIssues(100, jql)
 }
 
-// Sprint types
 export type JiraSprint = {
   id: number
   state: 'active' | 'closed' | 'future'
@@ -577,7 +544,6 @@ export type JiraBoard = {
   type: string
 }
 
-// Get project's board (needed for sprint operations)
 async function getProjectBoard(): Promise<JiraBoard> {
   const response = await jiraFetch<{values: JiraBoard[]}>(`/board?projectKeyOrId=${JIRA_PROJECT_KEY}`, {}, 'agile/1.0')
   if (!response.values || response.values.length === 0) {
@@ -586,14 +552,12 @@ async function getProjectBoard(): Promise<JiraBoard> {
   return response.values[0]
 }
 
-// List all sprints for the project
 export async function listSprints(): Promise<JiraSprint[]> {
   const board = await getProjectBoard()
   const response = await jiraFetch<{values: JiraSprint[]}>(`/board/${board.id}/sprint`, {}, 'agile/1.0')
   return response.values || []
 }
 
-// Create a new sprint
 export async function createSprint(params: {name: string; startDate?: string; endDate?: string}): Promise<JiraSprint> {
   const board = await getProjectBoard()
 
@@ -619,7 +583,6 @@ export async function createSprint(params: {name: string; startDate?: string; en
   )
 }
 
-// Start a sprint
 export async function startSprint(params: {
   sprintId: number
   startDate?: string
@@ -646,7 +609,6 @@ export async function startSprint(params: {
   )
 }
 
-// Move issues to sprint
 export async function moveIssuesToSprint(params: {sprintId: number; issueKeys: string[]}): Promise<void> {
   await jiraFetch<void>(
     `/sprint/${params.sprintId}/issue`,
@@ -660,7 +622,6 @@ export async function moveIssuesToSprint(params: {sprintId: number; issueKeys: s
   )
 }
 
-// Move issues to backlog
 export async function moveIssuesToBacklog(issueKeys: string[]): Promise<void> {
   await jiraFetch<void>(
     '/backlog/issue',
@@ -674,13 +635,11 @@ export async function moveIssuesToBacklog(issueKeys: string[]): Promise<void> {
   )
 }
 
-// Get active sprint
 export async function getActiveSprint(): Promise<JiraSprint | null> {
   const sprints = await listSprints()
   return sprints.find((s) => s.state === 'active') || null
 }
 
-// Close sprint
 export async function closeSprint(sprintId: number): Promise<JiraSprint> {
   return jiraFetch<JiraSprint>(
     `/sprint/${sprintId}`,
@@ -694,13 +653,11 @@ export async function closeSprint(sprintId: number): Promise<JiraSprint> {
   )
 }
 
-// Get sprint issues
 export async function getSprintIssues(sprintId: number): Promise<JiraIssue[]> {
   const jql = `sprint = ${sprintId} ORDER BY priority DESC, created DESC`
   return listIssues(100, jql)
 }
 
-// Get sprint report/statistics
 export type SprintReport = {
   sprint: JiraSprint
   totalIssues: number
@@ -736,7 +693,6 @@ export async function getSprintReport(sprintId: number): Promise<SprintReport> {
   }
 }
 
-// Search users (for assignee)
 export type JiraUser = {
   accountId: string
   displayName: string
@@ -748,7 +704,6 @@ export async function searchUsers(query: string): Promise<JiraUser[]> {
   return response
 }
 
-// Status types
 export type JiraStatus = {
   id: string
   name: string
@@ -783,15 +738,11 @@ export type ProjectStatuses = {
   }>
 }
 
-// Get all statuses in the Jira instance
 export async function getAllStatuses(): Promise<JiraStatus[]> {
-  // Using API v2 for status endpoint as v3 doesn't have a direct all-statuses endpoint
   return jiraFetch<JiraStatus[]>('/status', {}, 'api/2')
 }
 
-// Get statuses for a specific project (grouped by issue type)
 export async function getProjectStatuses(projectKey?: string): Promise<ProjectStatuses[]> {
-  // JIRA_PROJECT_KEY is guaranteed to be defined due to check at top of file
   const project = projectKey ?? (JIRA_PROJECT_KEY as string)
   return jiraFetch<ProjectStatuses[]>(`/project/${encodeURIComponent(project)}/statuses`)
 }

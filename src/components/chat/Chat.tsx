@@ -18,7 +18,7 @@ export function Chat() {
       id: 'sys-1',
       role: 'assistant',
       content:
-        'Привет! Я AI‑ассистент тимлида. Скинь ТЗ, ссылку на MR или текст после митинга — я разобью на задачи, проверю внедрение и дам рекомендации в markdown.',
+        'Hi! I am Team Lead Assistant. Send requirements, MR link or text after a meeting - the assistant will create tasks in Jira and suggest decomposition.',
     },
   ])
   const [input, setInput] = useState('')
@@ -71,9 +71,8 @@ export function Chat() {
 
   return (
     <div className="flex flex-1 flex-col overflow-hidden relative h-full">
-      {/* Messages area */}
-      <div className="flex-1 overflow-y-auto px-4 py-6 scrollbar-thin scrollbar-thumb-slate-700 scrollbar-track-transparent">
-        <div className="mx-auto max-w-3xl space-y-6">
+      <div className="flex-1 overflow-y-auto px-4 py-6 md:px-6 lg:px-8 scrollbar-thin scrollbar-thumb-slate-700 scrollbar-track-transparent">
+        <div className="mx-auto w-full max-w-5xl space-y-6">
           {messages.map((m) => (
             <MessageBubble key={m.id} message={m} />
           ))}
@@ -85,14 +84,12 @@ export function Chat() {
               </div>
             </div>
           )}
-          {/* Invisible element to scroll to */}
           <div className="h-4" />
         </div>
       </div>
 
-      {/* Input form at the bottom */}
-      <div className="px-4 pb-6 pt-2 bg-linear-to-t from-slate-950 via-slate-950/90 to-transparent z-10">
-        <div className="mx-auto max-w-3xl">
+      <div className="px-4 pb-6 pt-2 md:px-6 lg:px-8 bg-linear-to-t from-slate-950 via-slate-950/90 to-transparent z-10">
+        <div className="mx-auto w-full max-w-5xl">
           <form
             onSubmit={handleSubmit}
             className="relative flex items-end gap-2 rounded-3xl border border-slate-700/50 bg-slate-900/80 p-2 shadow-xl shadow-black/20 backdrop-blur-xl transition-all focus-within:border-indigo-500/50 focus-within:ring-1 focus-within:ring-indigo-500/50"

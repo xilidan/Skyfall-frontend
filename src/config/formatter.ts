@@ -92,23 +92,18 @@ export function getFormatter(i18n: I18n, _locale = i18n.locale) {
     dateMonthYear: (date: Date) => dateMonthYearFormat.format(date),
     datetimeRelative: (date: Date) => {
       const diffMs = date.getTime() - Date.now()
-      // If more than 1 year ago
       if (diffMs < -365 * 24 * 60 * 60 * 1000) {
         return datetimeRelativeFormat.format(Math.round(diffMs / 1000 / 60 / 60 / 24 / 365), 'year')
       }
-      // If more than 1 month ago
       if (diffMs < -30 * 24 * 60 * 60 * 1000) {
         return datetimeRelativeFormat.format(Math.round(diffMs / 1000 / 60 / 60 / 24 / 30), 'month')
       }
-      // If more than 1 day ago
       if (diffMs < -24 * 60 * 60 * 1000) {
         return datetimeRelativeFormat.format(Math.round(diffMs / 1000 / 60 / 60 / 24), 'day')
       }
-      // If more than 1 hour ago
       if (diffMs < -60 * 60 * 1000) {
         return datetimeRelativeFormat.format(Math.round(diffMs / 1000 / 60 / 60), 'hour')
       }
-      // If more than 1 minute ago
       if (diffMs < -60 * 1000) {
         return datetimeRelativeFormat.format(Math.round(diffMs / 1000 / 60), 'minute')
       }

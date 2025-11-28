@@ -27,14 +27,10 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({error: 'issues array cannot be empty'}, {status: 400})
     }
 
-    // Validate each issue has required fields
     for (let i = 0; i < issues.length; i++) {
       const issue = issues[i]
       if (!issue.summary || typeof issue.summary !== 'string') {
-        return NextResponse.json(
-          {error: `Issue at index ${i} is missing required field: summary`},
-          {status: 400},
-        )
+        return NextResponse.json({error: `Issue at index ${i} is missing required field: summary`}, {status: 400})
       }
     }
 
@@ -46,4 +42,3 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({error: message}, {status: 500})
   }
 }
-

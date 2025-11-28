@@ -1,121 +1,81 @@
 'use client'
 import {motion} from 'framer-motion'
-import Image from 'next/image'
+import {useEffect, useState} from 'react'
 
-export default function AuthLoading() {
+export default function Loading() {
+  const [mousePosition, setMousePosition] = useState({x: 50, y: 50})
+
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      const x = (e.clientX / window.innerWidth) * 100
+      const y = (e.clientY / window.innerHeight) * 100
+      setMousePosition({x, y})
+    }
+
+    window.addEventListener('mousemove', handleMouseMove)
+    return () => window.removeEventListener('mousemove', handleMouseMove)
+  }, [])
+
   return (
-    <div className="min-h-screen bg-linear-to-br from-blue-50 via-white to-indigo-100 flex flex-col items-center justify-center p-8">
+    <div className="min-h-screen bg-slate-950 flex flex-col items-center justify-center p-8 relative overflow-hidden">
+      <div className="pointer-events-none fixed inset-0 z-0">
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_50%_at_50%_-20%,rgba(79,70,229,0.3),transparent)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_50%_at_50%_120%,rgba(8,47,73,0.4),transparent)]" />
+
+        <div className="absolute inset-0 bg-[linear-gradient(rgba(148,163,184,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(148,163,184,0.03)_1px,transparent_1px)] bg-size-[4rem_4rem] mask-[radial-gradient(ellipse_60%_50%_at_50%_50%,black_70%,transparent)]" />
+
+        <div className="absolute top-0 left-1/4 w-96 h-96 bg-indigo-500/10 rounded-full blur-3xl" />
+        <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-cyan-500/10 rounded-full blur-3xl" />
+
+        <div
+          className="absolute inset-0 transition-opacity duration-300 ease-out"
+          style={{
+            background: `radial-gradient(circle 600px at ${mousePosition.x}% ${mousePosition.y}%, rgba(99, 102, 241, 0.15), rgba(79, 70, 229, 0.08), transparent 70%)`,
+            opacity: 1,
+          }}
+        />
+        <div
+          className="absolute inset-0 transition-opacity duration-500 ease-out"
+          style={{
+            background: `radial-gradient(circle 400px at ${mousePosition.x}% ${mousePosition.y}%, rgba(139, 92, 246, 0.12), transparent 60%)`,
+            opacity: 1,
+          }}
+        />
+      </div>
+
       <motion.div
-        initial={{scale: 0.8, opacity: 0}}
+        initial={{scale: 0.9, opacity: 0}}
         animate={{scale: 1, opacity: 1}}
-        transition={{duration: 0.3, ease: 'easeOut'}}
-        className="mb-8"
+        transition={{duration: 0.5, ease: 'easeOut'}}
+        className="mb-12 relative z-10"
       >
-        <motion.div
+        <motion.h1
           animate={{
-            rotate: [0, 3, -3, 0],
-            scale: [1, 1.02, 1],
+            backgroundPosition: ['0%', '100%', '0%'],
           }}
           transition={{
-            duration: 4,
+            duration: 3,
             repeat: Infinity,
-            ease: 'easeInOut',
+            ease: 'linear',
           }}
-          className="relative"
+          className="text-6xl md:text-7xl font-bold text-transparent bg-clip-text bg-linear-to-r from-indigo-400 via-purple-400 to-cyan-400 bg-size-[200%_auto]"
+          style={{
+            backgroundImage: 'linear-gradient(90deg, #818cf8, #a78bfa, #06b6d4, #a78bfa, #818cf8)',
+          }}
         >
-          <motion.div
-            animate={{
-              background: [
-                'linear-gradient(45deg, #3b82f6, #8b5cf6, #10b981)',
-                'linear-gradient(45deg, #10b981, #3b82f6, #8b5cf6)',
-                'linear-gradient(45deg, #8b5cf6, #10b981, #3b82f6)',
-                'linear-gradient(45deg, #3b82f6, #8b5cf6, #10b981)',
-              ],
-            }}
-            transition={{duration: 4, repeat: Infinity}}
-            className="absolute -inset-4 rounded-3xl blur-lg opacity-60"
-          />
-          <div className="relative bg-white p-6 rounded-3xl shadow-2xl border border-gray-100">
-            <Image src="/static/buy-logo.png" alt="Logo" width={72} height={72} className="rounded-2xl" priority />
-          </div>
-        </motion.div>
+          Skyfall AI
+        </motion.h1>
       </motion.div>
 
       <motion.div
         initial={{opacity: 0, y: 10}}
         animate={{opacity: 1, y: 0}}
-        transition={{duration: 0.3, delay: 0.1}}
-        className="w-full max-w-md"
+        transition={{duration: 0.4, delay: 0.1}}
+        className="w-full max-w-md relative z-10"
       >
-        <div className="bg-white rounded-2xl shadow-xl p-8">
-          {/* Title skeleton */}
-          <div className="space-y-3 mb-8">
-            <motion.div
-              className="h-8 bg-linear-to-r from-gray-200 via-gray-300 to-gray-200 rounded-lg mx-auto"
-              style={{width: '60%'}}
-              animate={{
-                backgroundPosition: ['0%', '100%'],
-              }}
-              transition={{
-                duration: 1.5,
-                repeat: Infinity,
-                ease: 'linear',
-              }}
-            />
-            <motion.div
-              className="h-4 bg-linear-to-r from-gray-200 via-gray-300 to-gray-200 rounded-lg mx-auto"
-              style={{width: '40%'}}
-              animate={{
-                backgroundPosition: ['0%', '100%'],
-              }}
-              transition={{
-                duration: 1.5,
-                repeat: Infinity,
-                ease: 'linear',
-                delay: 0.2,
-              }}
-            />
-          </div>
-
-          {/* Form fields skeleton */}
-          <div className="space-y-5">
-            <motion.div initial={{opacity: 0}} animate={{opacity: 1}} transition={{delay: 0.2}}>
-              <div className="h-3 bg-gray-200 rounded w-1/4 mb-2"></div>
-              <div className="h-12 bg-linear-to-r from-gray-200 via-gray-300 to-gray-200 rounded-lg"></div>
-            </motion.div>
-            <motion.div initial={{opacity: 0}} animate={{opacity: 1}} transition={{delay: 0.3}}>
-              <div className="h-3 bg-gray-200 rounded w-1/4 mb-2"></div>
-              <div className="h-12 bg-linear-to-r from-gray-200 via-gray-300 to-gray-200 rounded-lg"></div>
-            </motion.div>
-            <motion.div
-              initial={{opacity: 0}}
-              animate={{opacity: 1}}
-              transition={{delay: 0.4}}
-              className="h-12 bg-linear-to-r from-blue-200 via-blue-300 to-blue-200 rounded-lg mt-6"
-            />
-          </div>
-
-          {/* Bottom links skeleton */}
+        <div className="relative h-2.5 bg-slate-800/60 rounded-full overflow-hidden shadow-inner">
           <motion.div
-            initial={{opacity: 0}}
-            animate={{opacity: 1}}
-            transition={{delay: 0.5}}
-            className="mt-6 text-center"
-          >
-            <div className="h-4 bg-gray-200 rounded w-3/4 mx-auto"></div>
-          </motion.div>
-        </div>
-      </motion.div>
-
-      <motion.div
-        initial={{opacity: 0, y: 10}}
-        animate={{opacity: 1, y: 0}}
-        transition={{duration: 0.3, delay: 0.2}}
-        className="w-full max-w-sm mt-8"
-      >
-        <div className="relative h-2 bg-gray-200 rounded-full overflow-hidden">
-          <motion.div
-            className="h-full bg-linear-to-r from-blue-500 via-purple-500 to-emerald-500 rounded-full"
+            className="h-full bg-linear-to-r from-indigo-500 via-purple-500 to-cyan-500 rounded-full shadow-lg shadow-indigo-900/30"
             initial={{width: '0%'}}
             animate={{width: '100%'}}
             transition={{
@@ -127,14 +87,24 @@ export default function AuthLoading() {
         </div>
       </motion.div>
 
-      <motion.p
+      <motion.div
         initial={{opacity: 0}}
         animate={{opacity: 1}}
-        transition={{duration: 0.3, delay: 0.3}}
-        className="mt-4 text-sm text-gray-600 animate-pulse"
+        transition={{duration: 0.4, delay: 0.2}}
+        className="mt-6 relative z-10"
       >
-        Loading...
-      </motion.p>
+        <motion.p
+          animate={{opacity: [0.5, 1, 0.5]}}
+          transition={{
+            duration: 2,
+            repeat: Infinity,
+            ease: 'easeInOut',
+          }}
+          className="text-sm font-medium text-slate-300"
+        >
+          Loading...
+        </motion.p>
+      </motion.div>
     </div>
   )
 }

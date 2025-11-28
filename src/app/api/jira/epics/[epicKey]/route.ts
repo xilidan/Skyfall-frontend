@@ -5,7 +5,6 @@ type RouteContext = {
   params: Promise<{epicKey: string}>
 }
 
-// GET specific epic with its issues
 export async function GET(_req: NextRequest, {params}: RouteContext) {
   try {
     const {epicKey} = await params
@@ -19,7 +18,6 @@ export async function GET(_req: NextRequest, {params}: RouteContext) {
   }
 }
 
-// PATCH - Add issues to epic (bulk update)
 export async function PATCH(req: NextRequest, {params}: RouteContext) {
   try {
     const {epicKey} = await params
@@ -30,14 +28,11 @@ export async function PATCH(req: NextRequest, {params}: RouteContext) {
       return NextResponse.json({error: 'issueKeys array is required'}, {status: 400})
     }
 
-    // Validate issue keys
     for (const issueKey of issueKeys) {
       if (!issueKey || typeof issueKey !== 'string') {
         return NextResponse.json({error: 'All issueKeys must be non-empty strings'}, {status: 400})
       }
     }
-
-    // Update each issue to link it to the epic with error handling
     const results = await Promise.allSettled(
       issueKeys.map((issueKey) =>
         updateIssue(issueKey, {
@@ -67,7 +62,7 @@ export async function PATCH(req: NextRequest, {params}: RouteContext) {
           failed,
           errors,
         },
-        {status: 207}, // 207 Multi-Status for partial success
+        {status: 207},
       )
     }
 
@@ -79,7 +74,6 @@ export async function PATCH(req: NextRequest, {params}: RouteContext) {
   }
 }
 
-// DELETE - Remove issues from epic (bulk update)
 export async function DELETE(req: NextRequest, {params}: RouteContext) {
   try {
     const {epicKey} = await params
@@ -90,14 +84,11 @@ export async function DELETE(req: NextRequest, {params}: RouteContext) {
       return NextResponse.json({error: 'issueKeys array is required'}, {status: 400})
     }
 
-    // Validate issue keys
     for (const issueKey of issueKeys) {
       if (!issueKey || typeof issueKey !== 'string') {
         return NextResponse.json({error: 'All issueKeys must be non-empty strings'}, {status: 400})
       }
     }
-
-    // Update each issue to remove epic link (set to null)
     const results = await Promise.allSettled(
       issueKeys.map((issueKey) =>
         updateIssue(issueKey, {
@@ -127,7 +118,7 @@ export async function DELETE(req: NextRequest, {params}: RouteContext) {
           failed,
           errors,
         },
-        {status: 207}, // 207 Multi-Status for partial success
+        {status: 207},
       )
     }
 

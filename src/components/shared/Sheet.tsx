@@ -27,7 +27,6 @@ export function Sheet({
         <Drawer.Overlay className="fixed inset-0 isolate z-[100] bg-black/40" />
         <Drawer.Title className="text-[17px]/[22px] font-semibold text-black">31231</Drawer.Title>
         <Drawer.Content
-          // HACK: Silence accessibility warnings
           aria-describedby={undefined}
           className={twMerge(
             'fixed z-[100] flex flex-col bg-white bg-clip-padding text-neutral-700 shadow-2xl outline-none',

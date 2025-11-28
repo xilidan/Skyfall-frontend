@@ -1,4 +1,3 @@
-// app/api/jira/issues/[issueKey]/route.ts
 import {deleteIssue, getIssue, getSubtasks, updateIssue} from '@/server/jira'
 import {NextRequest, NextResponse} from 'next/server'
 

@@ -24,7 +24,6 @@ export function LocaleSelect(props: React.ComponentPropsWithRef<typeof Select>) 
         i18n.activate(key as string)
         setLocale(key as Locale)
         
-        // Set cookie to persist locale preference
         document.cookie = `NEXT_LOCALE=${key}; path=/; max-age=${60 * 60 * 24 * 365}; SameSite=Lax`
         
         router.replace(newPath, {scroll: false})

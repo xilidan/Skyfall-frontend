@@ -65,7 +65,7 @@ export function AuthAnimation() {
   )
 }
 
-export function DivAnimationFirst({className = '', ...props}: Omit<AllHTMLAttributes<HTMLDivElement>, 'children'>) {
+export function DivAnimationFirst({className = '', ...props}: Omit<React.HTMLAttributes<HTMLDivElement>, 'children'>) {
   return (
     <div
       className={cn(

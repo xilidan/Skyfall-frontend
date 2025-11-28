@@ -5,7 +5,6 @@ type RouteContext = {
   params: Promise<{issueKey: string}>
 }
 
-// GET - Get current status of an issue
 export async function GET(_req: NextRequest, {params}: RouteContext) {
   try {
     const {issueKey} = await params

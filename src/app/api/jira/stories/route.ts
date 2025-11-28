@@ -1,4 +1,3 @@
-// app/api/jira/stories/route.ts
 import {createStory, getIssuesByEpic} from '@/server/jira'
 import {NextRequest, NextResponse} from 'next/server'
 
@@ -43,7 +42,6 @@ export async function POST(req: NextRequest) {
   }
 }
 
-// GET stories by epic
 export async function GET(req: NextRequest) {
   try {
     const {searchParams} = new URL(req.url)

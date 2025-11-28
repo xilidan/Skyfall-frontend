@@ -1,4 +1,3 @@
-// app/api/jira/users/route.ts
 import {searchUsers} from '@/server/jira'
 import {NextRequest, NextResponse} from 'next/server'
 

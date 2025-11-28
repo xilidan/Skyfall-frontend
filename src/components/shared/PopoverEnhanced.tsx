@@ -55,7 +55,6 @@ export function PopoverEnhanced({
 
           <div className="relative">
             {children}
-            {/* Subtle inner glow effect */}
             <div className="absolute inset-0 rounded-lg bg-gradient-to-br from-white/10 to-transparent pointer-events-none" />
           </div>
         </>

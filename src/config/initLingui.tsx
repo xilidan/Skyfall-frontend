@@ -7,7 +7,6 @@ export type PageLangParam = {
 }
 
 export function initLingui(lang: string) {
-  // Cast to Locale since we know it's one of our supported locales
   const typedLang = lang as Locale
   const i18n = getI18nInstance(typedLang)
   setI18n(i18n)

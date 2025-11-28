@@ -47,31 +47,25 @@ export function useQueryState<T>(
   const pathname = usePathname()
   const searchParams = useSearchParams()
 
-  // Determine if we should use identity (for strings) or JSON (for other types)
   const useIdentity = typeof defaultValue === 'string'
 
   const serialize =
     options?.serialize ??
     ((val: T) => {
-      // For strings, use identity function
       if (useIdentity) {
         return val as unknown as string
       }
-      // For other types, use JSON
       return JSON.stringify(val)
     })
   const deserialize =
     options?.deserialize ??
     ((val: string) => {
-      // For strings, use identity function
       if (useIdentity) {
         return val as unknown as T
       }
-      // For other types, parse JSON
       try {
         return JSON.parse(val) as T
       } catch {
-        // If parsing fails, return default value
         return defaultValue
       }
     })
@@ -92,11 +86,9 @@ export function useQueryState<T>(
     (newValue: T | ((prev: T) => T)) => {
       const valueToSet = typeof newValue === 'function' ? (newValue as (prev: T) => T)(value) : newValue
 
-      // Check if value equals default (deep equality for objects)
       const isDefault = JSON.stringify(valueToSet) === JSON.stringify(defaultValue)
 
       if (isDefault || (typeof valueToSet === 'string' && valueToSet === '')) {
-        // Remove the param if it's empty or matches default
         const params = new URLSearchParams(searchParams.toString())
         params.delete(key)
         const queryString = params.toString()

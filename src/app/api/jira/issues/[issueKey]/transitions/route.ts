@@ -1,4 +1,3 @@
-// app/api/jira/issues/[issueKey]/transitions/route.ts
 import {getIssueTransitions, transitionIssue} from '@/server/jira'
 import {NextRequest, NextResponse} from 'next/server'
 

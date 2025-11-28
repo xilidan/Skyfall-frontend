@@ -1,12 +1,8 @@
 import {useEffectEvent} from '@react-aria/utils'
 import {useMemo, useRef, useState} from 'react'
 
-// Based on https://github.com/radix-ui/primitives/blob/b32a93318cdfce383c2eec095710d35ffbd33a1c/packages/react/use-previous/src/usePrevious.tsx
 export function usePrevious<T>(value: T) {
   const ref = useRef({value, previous: value})
-  // We compare values before making an update to ensure that a change has
-  // been made. This ensures the previous value is persisted correctly between
-  // renders.
   return useMemo(() => {
     if (ref.current.value !== value) {
       ref.current.previous = ref.current.value
@@ -16,7 +12,6 @@ export function usePrevious<T>(value: T) {
   }, [value])
 }
 
-// Based on https://github.com/radix-ui/primitives/blob/b32a93318cdfce383c2eec095710d35ffbd33a1c/packages/react/use-controllable-state/src/useControllableState.tsx
 export function useControllableState<T>({
   value: valueProp,
   defaultValue,

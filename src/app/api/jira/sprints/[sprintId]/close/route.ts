@@ -1,4 +1,3 @@
-// app/api/jira/sprints/[sprintId]/close/route.ts
 import {closeSprint} from '@/server/jira'
 import {NextRequest, NextResponse} from 'next/server'
 

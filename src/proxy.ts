@@ -33,7 +33,7 @@ export async function proxy(request: NextRequest) {
     const response = redirectTo(`/${resolvedLocale}${pathname.startsWith('/') ? '' : '/'}${pathname}`)
     response.cookies.set('NEXT_LOCALE', resolvedLocale, {
       path: '/',
-      maxAge: 60 * 60 * 24 * 365, // 1 year
+      maxAge: 60 * 60 * 24 * 365,
       sameSite: 'lax',
     })
     return response
