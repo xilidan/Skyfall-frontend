@@ -50,6 +50,7 @@ export type JiraIssue = {
     parent?: {key: string; id: string; fields: {summary: string}}
     epicLink?: string
     customfield_10016?: number // Story points field (varies by Jira instance)
+    duedate?: string
     [key: string]: any // Allow additional fields
   }
 }
@@ -88,6 +89,7 @@ export async function createIssue(params: {
   labels?: string[]
   epicLink?: string
   parentKey?: string
+  dueDate?: string
 }): Promise<JiraIssue> {
   const {
     summary,
@@ -100,6 +102,7 @@ export async function createIssue(params: {
     labels,
     epicLink,
     parentKey,
+    dueDate,
   } = params
 
   let finalAccountId = assigneeAccountId
@@ -151,6 +154,11 @@ export async function createIssue(params: {
   // Parent (for subtasks)
   if (parentKey) {
     body.fields.parent = {key: parentKey}
+  }
+
+  // Due date
+  if (dueDate) {
+    body.fields.duedate = dueDate
   }
 
   return jiraFetch<JiraIssue>('/issue', {
@@ -235,6 +243,7 @@ export async function listIssues(limit = 20, jql?: string): Promise<JiraIssue[]>
         'customfield_10016', // Story points
         'parent',
         'customfield_10014', // Epic Link
+        'duedate',
       ],
     }),
   })

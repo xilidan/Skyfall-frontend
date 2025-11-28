@@ -5,7 +5,14 @@ export async function GET(req: NextRequest) {
   try {
     const {searchParams} = new URL(req.url)
     const limit = parseInt(searchParams.get('limit') || '50', 10)
-    const jql = searchParams.get('jql') || undefined
+    const sort = searchParams.get('sort')
+    let jql = searchParams.get('jql') || `project = "${process.env.JIRA_PROJECT_KEY}"`
+
+    if (sort === 'deadline') {
+      jql += ' ORDER BY duedate ASC'
+    } else if (!searchParams.get('jql')) {
+      jql += ' ORDER BY created DESC'
+    }
 
     const issues = await listIssues(limit, jql)
     return NextResponse.json({issues})
@@ -29,6 +36,7 @@ export async function POST(req: NextRequest) {
       labels,
       epicLink,
       parentKey,
+      dueDate,
     } = body as {
       summary: string
       description?: string
@@ -40,6 +48,7 @@ export async function POST(req: NextRequest) {
       labels?: string[]
       epicLink?: string
       parentKey?: string
+      dueDate?: string
     }
 
     if (!summary || typeof summary !== 'string') {
@@ -57,6 +66,7 @@ export async function POST(req: NextRequest) {
       labels,
       epicLink,
       parentKey,
+      dueDate,
     })
     return NextResponse.json(issue, {status: 201})
   } catch (error: any) {

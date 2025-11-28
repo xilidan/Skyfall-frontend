@@ -56,7 +56,7 @@ export function LoginForm() {
       setCookie('accessToken', data.token, {
         maxAge: 60 * 60 * 5, // 5 hours
       })
-      router.push(`/`)
+      window.location.href = `/`
       void queryClient.invalidateQueries({queryKey: makeApiQueryKey('getMe')})
     },
   })

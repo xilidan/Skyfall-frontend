@@ -179,7 +179,8 @@
                   "priority": {"type": "string", "enum": ["Highest", "High", "Medium", "Low", "Lowest"]},
                   "labels": {"type": "array", "items": {"type": "string"}},
                   "epicLink": {"type": "string"},
-                  "parentKey": {"type": "string"}
+                  "parentKey": {"type": "string"},
+                  "dueDate": {"type": "string", "format": "date", "description": "YYYY-MM-DD"}
                 }
               }
             }
@@ -1455,7 +1456,8 @@
                 "type": "object",
                 "properties": {"name": {"type": "string"}}
               },
-              "assignee": {"$ref": "#/components/schemas/JiraUser"}
+              "assignee": {"$ref": "#/components/schemas/JiraUser"},
+              "duedate": {"type": "string", "format": "date", "nullable": true}
             }
           }
         }
